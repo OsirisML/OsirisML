@@ -8,34 +8,27 @@ Instead, write each one to a csv file as a new row to eliminate the RAM intensiv
 
 Instead of:
 
+dataframes = []
+
 for index, row in labels.iterrows():
-    npt_file = row['filename'].replace('.pcap', '.npt')
-    npt_df = pd.read_csv(f'/path/to/the/npt/files/{npt_file}')
-    npt_df['label'] = row['label']
-    dataframes.append(npt_df)
-    print(row['label'], file=sys.stdout)
+    npt_df = pd.read_csv(/path) # read csv
+    npt_df['label'] = row['label'] # label csv
+    dataframes.append(npt_df) # append to array
 
-
-dataset = pd.concat(dataframes, ignore_index=True)
+dataset = pd.concat(dataframes, ignore_index=True) # combine all csvs
 
 
 We changed it to:
 
 def process_npt_files(pcap_directory, labels_file, output_file):
     labels = pd.read_csv(labels_file)
-    header_written = False
 
     with open(output_file, 'w') as output_csv:
         writer = csv.writer(output_csv)
 
         for _, row in labels.iterrows():
-            npt_file = row['filename'].replace('.pcap', '.npt')
-            npt_df = pd.read_csv(os.path.join(pcap_directory, npt_file))
-            npt_df['label'] = row['label']
-
-            if not header_written:
-                writer.writerow(npt_df.columns)
-                header_written = True
+            npt_df = pd.read_csv(os.path...) # read csv
+            npt_df['label'] = row['label'] # label csv
             
             for _, npt_row in npt_df.iterrows():
-                writer.writerow(npt_row)
+                writer.writerow(npt_row) # write row to single csv file
