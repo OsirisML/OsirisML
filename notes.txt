@@ -1,34 +1,44 @@
-Limited by hardware - create_full_feature_set was making 14 separate csv files and attempting to concat them
+Creating the full labeled data set was limited by hardware
+    - create_full_feature_set was making 14 separate csv files and attempting to concat them
 
-Needed to optimize code
+We needed a way to optimize the code to not max out our RAM
+
+
+Solution:
 
 Instead, write each one to a csv file as a new row to eliminate the RAM intensive process of concat.
 
 
+Original code:
 
-Instead of:
+***
+    dataframes = []
 
-dataframes = []
+    for index, row in labels.iterrows():
+        npt_df = pd.read_csv(/path) # read csv
+        npt_df['label'] = row['label'] # label csv
+        dataframes.append(npt_df) # append to array
 
-for index, row in labels.iterrows():
-    npt_df = pd.read_csv(/path) # read csv
-    npt_df['label'] = row['label'] # label csv
-    dataframes.append(npt_df) # append to array
+    dataset = pd.concat(dataframes, ignore_index=True) # combine all csvs
 
-dataset = pd.concat(dataframes, ignore_index=True) # combine all csvs
+***
 
 
-We changed it to:
+Updated to:
 
-def process_npt_files(pcap_directory, labels_file, output_file):
-    labels = pd.read_csv(labels_file)
+***
 
-    with open(output_file, 'w') as output_csv:
-        writer = csv.writer(output_csv)
+    def process_npt_files(pcap_directory, labels_file, output_file):
+        labels = pd.read_csv(labels_file)
 
-        for _, row in labels.iterrows():
-            npt_df = pd.read_csv(os.path...) # read csv
-            npt_df['label'] = row['label'] # label csv
-            
-            for _, npt_row in npt_df.iterrows():
-                writer.writerow(npt_row) # write row to single csv file
+        with open(output_file, 'w') as output_csv:
+            writer = csv.writer(output_csv)
+
+            for _, row in labels.iterrows():
+                npt_df = pd.read_csv(os.path...) # read csv
+                npt_df['label'] = row['label'] # label csv
+                
+                for _, npt_row in npt_df.iterrows():
+                    writer.writerow(npt_row) # write row to single csv file
+
+***
