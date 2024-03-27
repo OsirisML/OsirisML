@@ -1,0 +1,14 @@
+filename,label
+windows_windows-7-pro.pcap,windows_windows-7-pro
+mac_mac-os-x.pcap,mac_mac-os-x
+ubuntu_ubuntu-16.4-64b.pcap,ubuntu_ubuntu-16.4
+windows_windows-8.1.pcap,windows_windows-8.1
+ubuntu_ubuntu-14.4-32b.pcap,ubuntu_ubuntu-14.4-32b
+ubuntu_web-server.pcap,ubuntu_web-server
+ubuntu_ubuntu-server.pcap,ubuntu_ubuntu-server
+ubuntu_ubuntu-16.4-32b.pcap,ubuntu_ubuntu-16.4-32b
+ubuntu_ubuntu-14.4-64b.pcap,ubuntu_ubuntu-14.4-64b
+windows_windows-10-pro.pcap,windows_windows-10-pro
+windows_windows-vista.pcap,windows_windows-vista
+windows_windows-10.pcap,windows_windows-10
+none_kali-linux.pcap,none_kali-linux
