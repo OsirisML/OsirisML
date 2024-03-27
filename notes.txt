@@ -1,0 +1,41 @@
+Limited by hardware - create_full_feature_set was making 14 separate csv files and attempting to concat them
+
+Needed to optimize code
+
+Instead, write each one to a csv file as a new row to eliminate the RAM intensive process of concat.
+
+
+
+Instead of:
+
+for index, row in labels.iterrows():
+    npt_file = row['filename'].replace('.pcap', '.npt')
+    npt_df = pd.read_csv(f'/path/to/the/npt/files/{npt_file}')
+    npt_df['label'] = row['label']
+    dataframes.append(npt_df)
+    print(row['label'], file=sys.stdout)
+
+
+dataset = pd.concat(dataframes, ignore_index=True)
+
+
+We changed it to:
+
+def process_npt_files(pcap_directory, labels_file, output_file):
+    labels = pd.read_csv(labels_file)
+    header_written = False
+
+    with open(output_file, 'w') as output_csv:
+        writer = csv.writer(output_csv)
+
+        for _, row in labels.iterrows():
+            npt_file = row['filename'].replace('.pcap', '.npt')
+            npt_df = pd.read_csv(os.path.join(pcap_directory, npt_file))
+            npt_df['label'] = row['label']
+
+            if not header_written:
+                writer.writerow(npt_df.columns)
+                header_written = True
+            
+            for _, npt_row in npt_df.iterrows():
+                writer.writerow(npt_row)
