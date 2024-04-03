@@ -24,7 +24,7 @@ model.fit(X_train, y_train)
 
 # Predictions
 predictions = model.predict(X_test)
-
+#hi
 # Evaluation
 accuracy = accuracy_score(y_test, predictions)
 f1 = f1_score(y_test, predictions, average='macro')
