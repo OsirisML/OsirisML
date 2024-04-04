@@ -19,8 +19,7 @@ print(f"Y is encoded")
 
 # Split dataset into training and testing set
 X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
-X_train = X_train.drop('src_ip', axis=1)
-X_test = X_test.drop('src_ip', axis=1)
+
 print(f"src_ip is dropped")
 # Initialize and train model
 print(f"classifying begins")
