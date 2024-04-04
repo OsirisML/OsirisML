@@ -28,4 +28,3 @@ f1 = f1_score(y_test, pred, average='macro')
 
 print(f"Model Accuracy: {acc * 100:.2f}%")
 print(f"Macro F1 Score: {f1 * 100:.2f}%")
-~                                              
