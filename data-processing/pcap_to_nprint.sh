@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Directory where your pcap files are located
-pcap_directory="/path/to/the/pcap/file/directory"
+pcap_directory="../data/pcap"  # Assuming pcap files are in the same directory as the script
 
 # Directory where you want to save the nprint output files
-output_directory="/path/to/the/output/directory"
+output_directory="../data/npt"  # Assuming you want to save output files in the data directory
 
 # Loop through all .pcap files in the directory
 for pcap_file in "$pcap_directory"/*.pcap; do
