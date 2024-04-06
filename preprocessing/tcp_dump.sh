@@ -8,7 +8,7 @@ fi
 filename="$1"
 path_to_dir="../data/pcap"
 base_filename="${filename%.*}" # Extracting the base filename without extension
-output_dir="../data/pcap/os_split"
+output_dir="../data/pcap/pcap_os_split"
 
 # Create output directory if it doesn't exist
 mkdir -p "$output_dir"
