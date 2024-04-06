@@ -29,7 +29,7 @@ Once the full feature dataset has been acquired, it can now be split by sklearn 
 
 TODO:
 
-Ordered my priority tier.
+Ordered by priority tier.
 
 Optimizing model:
 
@@ -37,10 +37,12 @@ Optimizing model:
 - Retrain model on other datasets
 
 Creating command line tool for generic use:
+
 - Modify scripts to take sys args
 - Create single script to execute entire workflow
 - Create small pcap file and test classes to test the scripts
 - Have single command to execute workflow with params for: csv file for number and type of OSes, decimal value of training set size (pass in to xgboost.py, left to 0.2 by default if none given)
 
+Extra:
 
 - Create markdown README with documentation and command line prints for errors and usage
