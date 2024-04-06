@@ -25,3 +25,22 @@ Use the pcap_to_nprint script to convert all the pcaps into npt format.
 Use the create_full_feature_set script to add the appropriate labels to the dataset.
 
 Once the full feature dataset has been acquired, it can now be split by sklearn and used with ML algorithms
+
+
+TODO:
+
+Ordered my priority tier.
+
+Optimizing model:
+
+- Optimize model with max_depth and eta params
+- Retrain model on other datasets
+
+Creating command line tool for generic use:
+- Modify scripts to take sys args
+- Create single script to execute entire workflow
+- Create small pcap file and test classes to test the scripts
+- Have single command to execute workflow with params for: csv file for number and type of OSes, decimal value of training set size (pass in to xgboost.py, left to 0.2 by default if none given)
+
+
+- Create markdown README with documentation and command line prints for errors and usage
