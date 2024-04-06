@@ -2,15 +2,20 @@ import pandas as pd
 import os
 import sys
 
-def process_and_write_npt_files(npt_directory, output_file):
+# "npt_to_csv.py"
+# This file takes the split npt files by OS and combines them into one CSV file
+# Note: This file assumes the npt files are located in ../data/npt/npt_os_split
+#   The csv file will be written to ../data/csv
+
+def process_and_write_npt_files(npt_directory, output_csv_directory, output_file):
     labels = pd.read_csv(os.path.abspath(os.path.join("..", "labels", "labels.csv")))
     
     # Ensure output directory exists
-    if not os.path.exists(output_directory):
-        os.makedirs(output_directory)
+    if not os.path.exists(output_csv_directory):
+        os.makedirs(output_csv_directory)
     
     # Open output CSV file in append mode
-    with open(os.path.join(npt_directory, output_file), 'a') as f_output:
+    with open(os.path.join(output_csv_directory, output_file), 'a') as f_output:
         is_header_written = False
         
         for index, row in labels.iterrows():
@@ -29,13 +34,13 @@ def process_and_write_npt_files(npt_directory, output_file):
 
 
 # Check if the correct number of arguments are provided
-if len(sys.argv) != 3:
-    print("Usage: python3 our_script.py path_to_npt_directory output_filename.csv\nWARNING: If you name the output file the same as one of the input files, the output file will overwrite the input file.")
+if len(sys.argv) != 2:
+    print("Usage: python3 [this_script].py output_filename.csv")
     sys.exit(1)  # Exit with error code 1
 
-# Extract the npt directory path and output file name from the command line arguments
-npt_directory = sys.argv[1]
-output_file = sys.argv[2]
+npt_directory = "../data/npt/npt_os_split"
+output_csv_directory = "../data/csv"
+output_file = sys.argv[1]
 
 # Call the function
-process_and_write_npt_files(npt_directory, output_file)
+process_and_write_npt_files(npt_directory, output_csv_directory, output_file)

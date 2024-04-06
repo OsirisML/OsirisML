@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# loops through a directory and runs nprint on all the .pcap files to generate .npt files
+
 # Directory where pcap files are located - by default is ../data/pcap/os_split
 pcap_directory="../data/pcap/pcap_os_split"  # Assuming pcap files are in the same directory as the script
 
