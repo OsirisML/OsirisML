@@ -29,3 +29,5 @@ tcpdump -r "$path_to_dir/$filename" -w "$output_dir/${base_filename}_windows_mac
 tcpdump -r "$path_to_dir/$filename" -w "$output_dir/${base_filename}_mac_mac-os-x.pcap" src 192.168.10.25
 tcpdump -r "$path_to_dir/$filename" -w "$output_dir/${base_filename}_ubuntu-ubuntu-server.pcap" '(src 192.168.10.51 or src 205.174.165.66)'
 tcpdump -r "$path_to_dir/$filename" -w "$output_dir/${base_filename}_ubuntu-web-server.pcap" '(src 192.168.10.50 or src 205.174.165.68)'
+
+echo ".pcap files successfully added to $output_dir\n"

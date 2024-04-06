@@ -31,6 +31,7 @@ def process_and_write_npt_files(npt_directory, output_csv_directory, output_file
                 print(row['label'], file=sys.stdout)
                 if not is_header_written:
                     is_header_written = True
+    print("Created csv file " + output_file + "in directory " + output_csv_directory + "\n")
 
 
 # Check if the correct number of arguments are provided

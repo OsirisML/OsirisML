@@ -18,7 +18,10 @@ for pcap_file in "$pcap_directory"/*.pcap; do
 		# Use nprint to convert pcap to its format, preserving the original file name
 		# Adjust the command according to your nprint syntax and options
 		nprint -P "$pcap_file" -W "$output_directory/${base_name}.npt" -4 -t
+		echo "nprint successful for file $pcap_file\n"
 	else
 		echo "File does not exist: $pcap_file"
 	fi
 done
+
+echo ".npt files successfully added to $output_directory\n"
