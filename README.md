@@ -41,7 +41,8 @@ Creating command line tool for generic use:
 - Modify scripts to take sys args
 - Create single script to execute entire workflow
 - Create small pcap file and test classes to test the scripts
-- Have single command to execute workflow with params for: csv file for number and type of OSes, decimal value of training set size (pass in to xgboost.py, left to 0.2 by default if none given)
+- Have single command to execute workflow with params for: csv file for number and type of OSes, decimal value of training set size (pass in to xgboost.py, left to 0.2 by default if none given),
+    option to remove data files after each step of workflow (remove the .pcaps after they are all converted to npt, then removed the .npts after they are all csv)
 - Create test directory with small test pcap file (see nprint's repo)
 
 Extra:
