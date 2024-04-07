@@ -8,6 +8,9 @@ pcap_directory="../data/pcap/pcap_os_split"  # Assuming pcap files are in the sa
 # Directory where you want to save the nprint output files
 output_directory="../data/npt/npt_os_split"  # Assuming you want to save output files in the data directory
 
+# Create output directory if it doesn't exist
+mkdir -p "$output_dir"
+
 # Loop through all .pcap files in the directory
 for pcap_file in "$pcap_directory"/*.pcap; do
 	# Check if the file exists
@@ -24,4 +27,4 @@ for pcap_file in "$pcap_directory"/*.pcap; do
 	fi
 done
 
-echo ".npt files successfully added to $output_directory\n"
+echo "nprint complete to $output_directory"
