@@ -39,7 +39,7 @@ if len(sys.argv) != 2:
     print("Usage: python3 [this_script].py output_filename.csv")
     sys.exit(1)  # Exit with error code 1
 
-npt_directory = "../data/npt/npt_os_split"
+npt_directory = "../data/npt"
 output_csv_directory = "../data/csv"
 output_file = sys.argv[1]
 
