@@ -15,7 +15,7 @@ if len(sys.argv) != 3 and len(sys.argv) != 4:
     print(usage_message)
     print("Note: only provide the file name, not the path. The csv file must be located in ../data/csv")
     sys.exit(1)  # Exit with error code 1
-elif len(sys.argv) == 4:
+elif len(sys.argv) == 4: # valid number of arguments
     try:
         test_size_decimal = float(sys.argv[3])
         if not 0 <= test_size_decimal < 1:
@@ -26,6 +26,7 @@ elif len(sys.argv) == 4:
         print(usage_message)
         print("Invalid test split size. Please provide a decimal value between 0 and 1")
         sys.exit(1)
+# else: test size is left to 0.2 by default
 
 
 print(f"Loading CSV File: {sys.argv[1]}")
@@ -41,7 +42,7 @@ except Exception as e:
     print(f"ERROR: {e}")
     sys.exit(1)
 
-print(f"CSV file loaded. Creating X/Y splits and training/testing splits")
+print(f"Creating X/Y splits and training/testing splits")
 
 
 # mark the byte ranges to remove to avoid data leakage from overfitting source IP
