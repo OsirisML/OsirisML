@@ -8,6 +8,7 @@ pcap_directory="../data/pcap/pcap_os_split"  # Assuming pcap files are in the sa
 # Directory where you want to save the nprint output files
 output_directory="../data/npt"  # Assuming you want to save output files in the data directory
 
+echo "Beggining nprint on .pcap files in $pcap_directory"
 
 # Loop through all .pcap files in the directory
 for pcap_file in "$pcap_directory"/*.pcap; do
@@ -19,7 +20,7 @@ for pcap_file in "$pcap_directory"/*.pcap; do
 		# Use nprint to convert pcap to its format, preserving the original file name
 		# Adjust the command according to your nprint syntax and options
 		nprint -P "$pcap_file" -W "$output_directory/${base_name}.npt" -4 -t
-		echo "nprint successful for file $pcap_file\n"
+		echo "nprint successful for file $pcap_file"
 	else
 		echo "File does not exist: $pcap_file"
 	fi
