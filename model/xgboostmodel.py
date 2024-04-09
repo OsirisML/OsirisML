@@ -91,7 +91,7 @@ print("Testing model with test size of " + str(test_size_decimal))
 predictions = model.predict(X_test)
 
 # Evaluation
-accuracy = accuracY_score(Y_test, predictions)
+accuracy = accuracy_score(Y_test, predictions)
 f1 = f1_score(Y_test, predictions, average='macro')
 
 print(f"Model Accuracy: {accuracy}")
