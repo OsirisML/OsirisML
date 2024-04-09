@@ -3,7 +3,7 @@
 # takes a .pcap file and splits it into different .pcap files for each OS
 
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <pcap_file>"
+    echo "Usage: $0 <pcap_file.pcap>"
     exit 1
 fi
 
