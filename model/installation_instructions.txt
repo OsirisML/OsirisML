@@ -1,0 +1,11 @@
+Configure xgboostmodel.py:
+
+Install python3
+
+sudo apt install python3-pip
+
+pip install pandas
+
+pip install scikit-learn
+
+pip install xgboost
