@@ -47,7 +47,7 @@ npt_directory = "../data/npt"
 
 # Check if the correct number of arguments are provided
 if len(sys.argv) != 2:
-    print("Usage: python3 [this_script].py output_filename.csv")
+    print("Usage: python3 <this_script.py> <output_filename.csv>")
     print("All .npt files must be in " + npt_directory)
     sys.exit(1)  # Exit with error code 1
 

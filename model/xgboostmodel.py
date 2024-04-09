@@ -8,7 +8,7 @@ from sklearn.preprocessing import LabelEncoder
 
 
 test_size_decimal = 0.2
-usage_message = "Usage: python3 [this_script].py [csv filename wth .csv] [model name with no extension] OPTIONAL:[decimal for test split size, [0 - 1)]"
+usage_message = "Usage: python3 <this_script.py> <csv filename wth .csv> <model name with no extension> OPTIONAL:<decimal for test split size, [0 - 1)>"
 
 # Check if the correct number of arguments are provided
 if len(sys.argv) != 3 and len(sys.argv) != 4:
