@@ -19,8 +19,9 @@ def process_and_write_npt_files(npt_directory, output_csv_directory, output_file
     with open(os.path.join(output_csv_directory, output_file), 'w') as f_output:
         is_header_written = False
         
+        print("Processing all .npt files in " + npt_directory)
+
         for npt_filename in os.listdir(npt_directory):
-            print("Processing all .npt files in " + npt_directory)
             if npt_filename.endswith('.npt'):
                 npt_file_path = os.path.join(npt_directory, npt_filename)
                 try:
