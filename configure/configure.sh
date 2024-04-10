@@ -7,7 +7,7 @@ install_nprint() {
     apt install g++
     apt install make
 
-    # Assuming nprint-1.2.1.tar.gz is in the same directory as this script
+    # See https://github.com/nprint/nprint to download a different version
     tar -xvf nprint-1.2.1.tar.gz
     cd nprint-1.2.1
     ./configure
