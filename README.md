@@ -1,4 +1,4 @@
-# OSirisML
+# OS Fingerprinting
 
 Data processing and machine learning application of PCAP (packet capture, .pcap) data to passively identify operating systems.
 
