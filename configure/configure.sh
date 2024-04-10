@@ -10,7 +10,9 @@ install_nprint() {
     # Assuming nprint-1.2.1.tar.gz is in the same directory as this script
     tar -xvf nprint-1.2.1.tar.gz
     cd nprint-1.2.1
-    ./configure && make && sudo make install
+    ./configure
+    make
+    make install
     cd ..
     echo "nprint installation completed."
 }
@@ -18,6 +20,7 @@ install_nprint() {
 # Function to install Python dependencies for xgboostmodel.py
 install_python_dependencies() {
     echo "Installing Python dependencies..."
+    apt install python3
     apt install python3-pip
     pip install pandas scikit-learn xgboost
     echo "Python dependencies installed."
