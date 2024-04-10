@@ -1,6 +1,34 @@
-# OS_MLFingerprinting
+# OSirisML
 
-Use modern machine learning algorithms to improve upon the Passive OS fingerprinting completed in https://arxiv.org/pdf/2008.02695.pdf
+Data processing and machine learning application of PCAP (packet capture, .pcap) data to passively identify operating systems.
+
+# Installation on Debian Linux:
+
+chmod +x configure/configure.sh
+
+sudo configure/configure.sh
+
+# Overview of workflow
+
+This open-source tool is built off the work on passive OS detection completed in https://arxiv.org/pdf/2008.02695.pdf
+
+Given a PCAP file and identifying source IPs, a script is run to call tcp dump on the PCAP file for each source IP, so the model is given classiciation labels for each element.
+
+Using nprint, the open-source PCAP preprocessing tool, the PCAP data is transformed into .npt data.
+
+https://github.com/nprint/nprint
+
+These .npt files are combined to a single CSV file using a custom script in /preprocessing
+
+This CSV file is split into X_train, X_test, Y_train, and Y_test data, where X is the 960 attributes of tabular data, and Y is the corresponding operating system classification. This is done with Pandas, an open-source data manipulation tool.
+
+https://pandas.pydata.org/
+
+This data is trained using XGBoost, an open-source machine learning tool that uses gradient boosting.
+
+https://xgboost.readthedocs.io/en/stable/
+
+# Results with CIC-IDS2017 Dataset
 
 Replicating section 5.2 with xgboost saw an Accuracy score of 74.38% with an F1 Score of 75.48%
 
@@ -21,15 +49,15 @@ Here is the table provided by University of New Brunswick:
 - MAC: 192.168.10.25
 - Kali: 205.174.165.73
 
-Use the pcap_to_nprint script to convert all the pcaps into npt format.
-Use the create_full_feature_set script to add the appropriate labels to the dataset.
 
-Once the full feature dataset has been acquired, it can now be split by sklearn and used with ML algorithms
+# Implementation with custom data
+
+To use OSirisML with any data set, the network data needs to be sorted by source IP. This is done best in a controlled environment, where each OS is tied to a single source IP.
+
+Modify the /preprocessing/tcp_dump.sh script to label each source IP with the corresponding operating system.
 
 
-TODO:
-
-Ordered by priority tier.
+# TODO - Ordered by priority tier
 
 Optimizing model:
 
@@ -38,10 +66,8 @@ Optimizing model:
 
 Creating command line tool for generic use:
 
-- Create single script to execute entire workflow
-- Create small pcap file and test classes to test the scripts
 - Have single command to execute workflow with params for: csv file for number and type of OSes, decimal value of training set size (pass in to xgboost.py, left to 0.2 by default if none given),
-    option to remove data files after each step of workflow (remove the .pcaps after they are all converted to npt, then removed the .npts after they are all csv)
+- option to remove data files after each step of workflow (remove the .pcaps after they are all converted to npt, then removed the .npts after they are all csv)
 - Create test directory with small test pcap file (see nprint's repo)
 
 Extra:
