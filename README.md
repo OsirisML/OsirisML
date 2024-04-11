@@ -10,6 +10,8 @@ Data processing and machine learning application of PCAP (packet capture, .pcap)
 
 OSirisML is currently only available for installation on Debian Linux because it is reccomended to run on a server with high `RAM` capacity. Through basic testing, a PCAP file of about `8` gb is reccomended to have at least `128` gb of RAM.
 
+See `/configure/installation_instructions.txt` for more information on how to install dependencies.
+
 # Overview of workflow
 
 This open-source tool is built off the work on passive OS detection nprint and nprintML.
