@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import sys
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score
