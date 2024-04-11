@@ -1,14 +1,17 @@
 import numpy as np
-from sklearn.metrics import accuracy_score
-import xgboost as xgb 
+import pandas as pd
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import accuracy_score, f1_score
+import xgboost as xgb
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import f1_score
 
-x_train = np.load('../data/npy/X_train.npy', allow_pickle=True)
-x_test = np.load('../data/npy/X_test.npy', allow_pickle=True)
+# Load data
+X_train = np.load('../data/npy/X_train.npy', allow_pickle=True)
+X_test = np.load('../data/npy/X_test.npy', allow_pickle=True)
 y_train = np.load('../data/npy/Y_train.npy', allow_pickle=True)
 y_test = np.load('../data/npy/Y_test.npy', allow_pickle=True)
 
+# Encode labels
 label_encoder = LabelEncoder()
 y_train_encoded = label_encoder.fit_transform(y_train)
 y_test_encoded = label_encoder.transform(y_test)
@@ -27,11 +30,9 @@ model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
 
 # Perform grid search
 grid_search = GridSearchCV(model, param_grid, scoring='accuracy', cv=5, n_jobs=-1)
-grid_search.fit(X_train, Y_train)
+grid_search.fit(X_train, y_train_encoded)
 
-# Get best parameters and retrain model
-best_params = grid_search.best_params_
-# After grid search is completed
+# Get best parameters
 best_params = grid_search.best_params_
 print("Best Parameters:", best_params)
 
@@ -41,11 +42,11 @@ with open("answers.txt", "w") as file:
     for key, value in best_params.items():
         file.write(f"{key}: {value}\n")
 
+# Train best model
 best_model = xgb.XGBClassifier(**best_params, use_label_encoder=False, eval_metric='mlogloss')
 best_model.fit(X_train, y_train_encoded)
 
 # Predictions
-print("Testing model with test size of " + str(test_size_decimal))
 predictions = best_model.predict(X_test)
 
 # Evaluation
