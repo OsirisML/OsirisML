@@ -4,27 +4,33 @@ Data processing and machine learning application of PCAP (packet capture, .pcap)
 
 # Installation on Debian Linux:
 
-chmod +x configure/configure.sh
+`chmod +x configure/configure.sh`
 
-sudo configure/configure.sh
+`sudo configure/configure.sh`
 
 # Overview of workflow
 
-This open-source tool is built off the work on passive OS detection completed in https://arxiv.org/pdf/2008.02695.pdf
+This open-source tool is built off the work on passive OS detection nprint and nprintML.
 
-Given a PCAP file and identifying source IPs, a script is run to call tcp dump on the PCAP file for each source IP, so the model is given classiciation labels for each element.
+https://arxiv.org/pdf/2008.02695.pdf
 
-Using nprint, the open-source PCAP preprocessing tool, the PCAP data is transformed into .npt data.
+Given a PCAP file and identifying source IPs, a script is run to call `tcpdump` on the PCAP file for each source IP, so the model is given classiciation labels for each element.
+
+https://www.tcpdump.org/
+
+Using nprint, the open-source PCAP preprocessing tool, the PCAP data is transformed into `.npt` data.
 
 https://github.com/nprint/nprint
 
-These .npt files are combined to a single CSV file using a custom script in /preprocessing
+These `.npt` files are combined to a single `CSV` file using a custom script in /preprocessing
 
-This CSV file is split into X_train, X_test, Y_train, and Y_test data, where X is the 960 attributes of tabular data, and Y is the corresponding operating system classification. This is done with Pandas, an open-source data manipulation tool.
+This CSV file is split into `X_train`, `X_test`, `Y_train`, and `Y_test` data, where X is the 960 attributes of tabular data, and Y is the corresponding operating system classification. This is done with Pandas, an open-source data manipulation tool.
 
 https://pandas.pydata.org/
 
-This data is trained using XGBoost, an open-source machine learning tool that uses gradient boosting.
+The payload and source IP bytes of the packet are dropped from the dataframe and not considered in the model.
+
+This data is trained using `XGBoost`, an open-source machine learning tool that uses gradient boosting. By default, a test size of 0.2 is used, unless specified as an additional sys argument. See usage for `model/xgboostmodel.py`
 
 https://xgboost.readthedocs.io/en/stable/
 
@@ -52,7 +58,7 @@ Here is the table provided by University of New Brunswick:
 
 # Implementation with custom data
 
-To use OSirisML with any data set, the network data needs to be sorted by source IP. This is done best in a controlled environment, where each OS is tied to a single source IP.
+To use OSirisML with any data set, the network data needs to be sorted by source IP. This is done best in a controlled environment, where each source IP is a unique OS.
 
 Modify the /preprocessing/tcp_dump.sh script to label each source IP with the corresponding operating system.
 
