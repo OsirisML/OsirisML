@@ -10,7 +10,7 @@ Data processing and machine learning application of Packet Capture (.pcap) data 
 
 OSirisML is currently only available for installation on Debian Linux because it is reccomended to run on a server with high `RAM` capacity. Through basic testing, a `.pcap` file of about `8` gb is reccomended to have at least `128` gb of `RAM`.
 
-See `/configure/installation_instructions.txt` for more information on how to install dependencies.
+See `configure/installation_instructions.txt` for more information on how to install dependencies.
 
 # Overview of workflow
 
@@ -22,7 +22,7 @@ https://arxiv.org/pdf/2008.02695.pdf
 
 1. Labeling each source IP to its OS
 
-Given a `.pcap` file and identifying source IPs, `/preprocessing/tcp_dump.sh` is run to call `tcpdump` on the `.pcap` file for each source IP, so the model is given classiciation labels for each element. `tcpdump` takes arguments of the source IP and corresponding OS. **The source IP's must be provided in**  `/preprocessing/tcp_dump.sh`.
+Given a `.pcap` file and identifying source IPs, `preprocessing/tcp_dump.sh` is run to call `tcpdump` on the `.pcap` file for each source IP, so the model is given classiciation labels for each element. `tcpdump` takes arguments of the source IP and corresponding OS. **The source IP's must be provided in**  `preprocessing/tcp_dump.sh`.
 
 https://www.tcpdump.org/
 
@@ -32,19 +32,21 @@ Using nprint, the open-source `.pcap` preprocessing tool, the `.pcap` data is tr
 
 https://github.com/nprint/nprint
 
-Note: OSirisML is configured to work with `nprint-1.2.1`. To use a newer version, **see nprint's github for installation instructions** and replace the `tar` file in `/configure`.
+Note: OSirisML is configured to work with `nprint-1.2.1`. To use a newer version, **see nprint's github for installation instructions** and replace the `tar` file in `configure`.
 
 3. Combine the `.npt` files to a single labeled `.csv` file.
 
-These `.npt` files are combined to a single `.csv` file using a custom `Python` script in `/preprocessing`.
+These `.npt` files are combined to a single `.csv` file using a custom `Python` script in `preprocessing`.
 
 This script appends the corresponding label identified from the source IP to the last column of the `.csv` file.
 
 4. Apply machine learning model, XGBoost, to the labeled tabular data to create a classification model.
 
-This `.csv` file is split into `X_train`, `X_test`, `Y_train`, and `Y_test` data, where X is the `960` attributes of tabular data, and Y is the corresponding operating system classification. This is done with `Pandas`, an open-source data manipulation tool.
+This `.csv` file is split into `X_train`, `X_test`, `Y_train`, and `Y_test` data, where X is the `960` attributes of tabular data, and Y is the corresponding operating system classification. This is done with `Pandas`, an open-source data manipulation tool, and `scikit-learn`, an open-source machine learning Python library.
 
 https://pandas.pydata.org/
+
+https://scikit-learn.org/stable/
 
 The payload and source IP bytes of the packet are dropped from the dataframe and not considered in the model to avoid data leakage and overfitting.
 
@@ -78,7 +80,7 @@ Here is the table provided by University of New Brunswick:
 
 To use OSirisML with any dataset, the network data needs to be sorted by source IP. This is done best in a controlled environment, where each source IP is a unique OS.
 
-Modify the /preprocessing/tcp_dump.sh script to label each source IP with the corresponding operating system.
+Modify the `preprocessing/tcp_dump.sh` script to label each source IP with the corresponding operating system.
 
 
 # TODO - Ordered by priority tier
