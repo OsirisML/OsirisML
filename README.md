@@ -14,6 +14,8 @@ See `/configure/installation_instructions.txt` for more information on how to in
 
 # Overview of workflow
 
+[Workflow Diagram PDF](OSirisML.pdf)
+
 This open-source tool is built off the work on passive OS detection nprint and nprintML.
 
 https://arxiv.org/pdf/2008.02695.pdf
