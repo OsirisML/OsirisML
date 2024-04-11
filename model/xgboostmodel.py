@@ -56,13 +56,13 @@ tcp_ack_start, tcp_ack_end = 544, 576
 
 # Combine all ranges to remove, including the first column (index 0)
 columns_to_remove = [0] + \
-                    list(range(ipv4_source_start, ipv4_source_end + 1)) + \
-                    list(range(ipv4_destination_start, ipv4_destination_end + 1)) + \
-                    list(range(ipv4_identification_start, ipv4_identification_end + 1)) + \
-                    list(range(tcp_source_port_start, tcp_source_port_end + 1)) + \
-                    list(range(tcp_destination_port_start, tcp_destination_port_end + 1)) + \
-                    list(range(tcp_sequence_start, tcp_sequence_end + 1)) + \
-                    list(range(tcp_ack_start, tcp_ack_end + 1))
+    list(range(ipv4_source_start, ipv4_source_end + 1)) + \
+    list(range(ipv4_destination_start, ipv4_destination_end + 1)) + \
+    list(range(ipv4_identification_start, ipv4_identification_end + 1)) + \
+    list(range(tcp_source_port_start, tcp_source_port_end + 1)) + \
+    list(range(tcp_destination_port_start, tcp_destination_port_end + 1)) + \
+    list(range(tcp_sequence_start, tcp_sequence_end + 1)) + \
+    list(range(tcp_ack_start, tcp_ack_end + 1))
 
 # Adjusting for removal from a DataFrame where columns are referenced by their integer location
 
