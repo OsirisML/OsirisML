@@ -8,6 +8,8 @@ Data processing and machine learning application of PCAP (packet capture, .pcap)
 
 `sudo configure/configure.sh`
 
+OSirisML is currently only available for installation on Debian Linux because it is reccomended to run on a server with high `RAM` capacity. Through basic testing, a PCAP file of about `8` gb is reccomended to have at least `128` gb of RAM.
+
 # Overview of workflow
 
 This open-source tool is built off the work on passive OS detection nprint and nprintML.
@@ -22,15 +24,17 @@ Using nprint, the open-source PCAP preprocessing tool, the PCAP data is transfor
 
 https://github.com/nprint/nprint
 
+Note: OSirisML is configured to work with `nprint-1.2.1`. To use a newer version, see nprint's github for installation instructions and replace the `tar` file in `/configure`
+
 These `.npt` files are combined to a single `CSV` file using a custom script in /preprocessing
 
-This CSV file is split into `X_train`, `X_test`, `Y_train`, and `Y_test` data, where X is the 960 attributes of tabular data, and Y is the corresponding operating system classification. This is done with Pandas, an open-source data manipulation tool.
+This CSV file is split into `X_train`, `X_test`, `Y_train`, and `Y_test` data, where X is the `960` attributes of tabular data, and Y is the corresponding operating system classification. This is done with `Pandas`, an open-source data manipulation tool.
 
 https://pandas.pydata.org/
 
 The payload and source IP bytes of the packet are dropped from the dataframe and not considered in the model.
 
-This data is trained using `XGBoost`, an open-source machine learning tool that uses gradient boosting. By default, a test size of 0.2 is used, unless specified as an additional sys argument. See usage for `model/xgboostmodel.py`
+This data is trained using `XGBoost`, an open-source machine learning tool that uses gradient boosting. By default, a test size of `0.2` is used, unless specified as an additional sys argument. See usage for `model/xgboostmodel.py`
 
 https://xgboost.readthedocs.io/en/stable/
 
@@ -56,9 +60,9 @@ Here is the table provided by University of New Brunswick:
 - Kali: 205.174.165.73
 
 
-# Implementation with custom data
+# Implementation with PCAP data
 
-To use OSirisML with any data set, the network data needs to be sorted by source IP. This is done best in a controlled environment, where each source IP is a unique OS.
+To use OSirisML with any dataset, the network data needs to be sorted by source IP. This is done best in a controlled environment, where each source IP is a unique OS.
 
 Modify the /preprocessing/tcp_dump.sh script to label each source IP with the corresponding operating system.
 
