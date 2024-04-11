@@ -5,6 +5,8 @@ from sklearn.metrics import accuracy_score, f1_score
 import xgboost as xgb
 from sklearn.preprocessing import LabelEncoder
 
+# Creates a binary file for the OS fingerprint model using XGBoost
+# By default, a test size of 0.2 is used. See usage to use an additional sys arg to change this
 
 test_size_decimal = 0.2
 usage_message = "Usage: python3 <this_script.py> <csv filename wth .csv> <model name with no extension> OPTIONAL:<decimal for test split size, [0 - 1)>"

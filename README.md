@@ -12,6 +12,10 @@ OSirisML is currently only available for installation on Debian Linux because it
 
 See `configure/installation_instructions.txt` for more information on how to install dependencies.
 
+# Usage
+
+The `.pcap` file should be placed in `data/pcap/`.
+
 # Overview of workflow
 
 [Workflow Diagram PDF](OSirisML.pdf)
