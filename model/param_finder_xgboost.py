@@ -18,9 +18,9 @@ y_test_encoded = label_encoder.transform(y_test)
 
 # Set up parameter grid for grid search
 param_grid = {
-    'learning_rate': [0.1, 0.01, 0.001],
+    # 'learning_rate': [0.1, 0.01, 0.001],
     'n_estimators': [100, 500, 1000],
-    'max_depth': [4, 6, 8],
+    # 'max_depth': [4, 6, 8],
     'min_child_weight': [1, 3, 5],
     'gamma': [0.0, 0.1, 0.2],
 }
