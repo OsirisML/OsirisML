@@ -4,10 +4,10 @@ import xgboost as xgb
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import f1_score
 
-x_train = np.load('data/npy/X_train.npy', allow_pickle=True)
-x_test = np.load('data/npy/X_test.npy', allow_pickle=True)
-y_train = np.load('data/npy/Y_train.npy', allow_pickle=True)
-y_test = np.load('data/npy/Y_test.npy', allow_pickle=True)
+x_train = np.load('../data/npy/X_train.npy', allow_pickle=True)
+x_test = np.load('../data/npy/X_test.npy', allow_pickle=True)
+y_train = np.load('../data/npy/Y_train.npy', allow_pickle=True)
+y_test = np.load('../data/npy/Y_test.npy', allow_pickle=True)
 
 label_encoder = LabelEncoder()
 y_train_encoded = label_encoder.fit_transform(y_train)
