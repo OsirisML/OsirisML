@@ -26,9 +26,11 @@ param_grid = {
 }
 
 # Initialize XGBoost model
+print("running xgboost")
 model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
 
 # Perform grid search
+print("searching grid for optimal parameters")
 grid_search = GridSearchCV(model, param_grid, scoring='accuracy', cv=5, n_jobs=-1)
 grid_search.fit(X_train, y_train_encoded)
 
@@ -44,9 +46,11 @@ with open("answers.txt", "w") as file:
 
 # Train best model
 best_model = xgb.XGBClassifier(**best_params, use_label_encoder=False, eval_metric='mlogloss')
+print("fitting model")
 best_model.fit(X_train, y_train_encoded)
 
 # Predictions
+print("predicting...")
 predictions = best_model.predict(X_test)
 
 # Evaluation
