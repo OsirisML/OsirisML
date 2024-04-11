@@ -1,6 +1,6 @@
 # OS Fingerprinting
 
-Data processing and machine learning application of PCAP (packet capture, .pcap) data to passively identify operating systems.
+Data processing and machine learning application of Packet Capture (.pcap) data to passively identify operating systems.
 
 # Installation on Debian Linux:
 
@@ -8,7 +8,7 @@ Data processing and machine learning application of PCAP (packet capture, .pcap)
 
 `sudo configure/configure.sh`
 
-OSirisML is currently only available for installation on Debian Linux because it is reccomended to run on a server with high `RAM` capacity. Through basic testing, a PCAP file of about `8` gb is reccomended to have at least `128` gb of RAM.
+OSirisML is currently only available for installation on Debian Linux because it is reccomended to run on a server with high `RAM` capacity. Through basic testing, a `.pcap` file of about `8` gb is reccomended to have at least `128` gb of `RAM`.
 
 See `/configure/installation_instructions.txt` for more information on how to install dependencies.
 
@@ -16,29 +16,39 @@ See `/configure/installation_instructions.txt` for more information on how to in
 
 [Workflow Diagram PDF](OSirisML.pdf)
 
-This open-source tool is built off the work on passive OS detection nprint and nprintML.
+This open-source tool is built off the work on passive OS detection using nprint and nprintML.
 
 https://arxiv.org/pdf/2008.02695.pdf
 
-Given a PCAP file and identifying source IPs, a script is run to call `tcpdump` on the PCAP file for each source IP, so the model is given classiciation labels for each element.
+1. Labeling each source IP to its OS
+
+Given a `.pcap` file and identifying source IPs, `/preprocessing/tcp_dump.sh` is run to call `tcpdump` on the `.pcap` file for each source IP, so the model is given classiciation labels for each element. `tcpdump` takes arguments of the source IP and corresponding OS. **The source IP's must be provided in**  `/preprocessing/tcp_dump.sh`.
 
 https://www.tcpdump.org/
 
-Using nprint, the open-source PCAP preprocessing tool, the PCAP data is transformed into `.npt` data.
+2. Converting `.pcap` to tabular data `.npt`
+
+Using nprint, the open-source `.pcap` preprocessing tool, the `.pcap` data is transformed into `.npt` data.
 
 https://github.com/nprint/nprint
 
-Note: OSirisML is configured to work with `nprint-1.2.1`. To use a newer version, see nprint's github for installation instructions and replace the `tar` file in `/configure`
+Note: OSirisML is configured to work with `nprint-1.2.1`. To use a newer version, **see nprint's github for installation instructions** and replace the `tar` file in `/configure`.
 
-These `.npt` files are combined to a single `CSV` file using a custom script in /preprocessing
+3. Combine the `.npt` files to a single labeled `.csv` file.
 
-This CSV file is split into `X_train`, `X_test`, `Y_train`, and `Y_test` data, where X is the `960` attributes of tabular data, and Y is the corresponding operating system classification. This is done with `Pandas`, an open-source data manipulation tool.
+These `.npt` files are combined to a single `.csv` file using a custom `Python` script in `/preprocessing`.
+
+This script appends the corresponding label identified from the source IP to the last column of the `.csv` file.
+
+4. Apply machine learning model, XGBoost, to the labeled tabular data to create a classification model.
+
+This `.csv` file is split into `X_train`, `X_test`, `Y_train`, and `Y_test` data, where X is the `960` attributes of tabular data, and Y is the corresponding operating system classification. This is done with `Pandas`, an open-source data manipulation tool.
 
 https://pandas.pydata.org/
 
-The payload and source IP bytes of the packet are dropped from the dataframe and not considered in the model.
+The payload and source IP bytes of the packet are dropped from the dataframe and not considered in the model to avoid data leakage and overfitting.
 
-This data is trained using `XGBoost`, an open-source machine learning tool that uses gradient boosting. By default, a test size of `0.2` is used, unless specified as an additional sys argument. See usage for `model/xgboostmodel.py`
+This data is trained using `XGBoost`, an open-source machine learning tool that uses gradient boosting. By default, a test size of `0.2` is used, unless specified as an additional sys argument. See usage for `model/xgboostmodel.py`.
 
 https://xgboost.readthedocs.io/en/stable/
 
@@ -46,7 +56,7 @@ https://xgboost.readthedocs.io/en/stable/
 
 Replicating section 5.2 with xgboost saw an Accuracy score of 74.38% with an F1 Score of 75.48%
 
-To create the appropriate labels use tcpdump to separate the source IP addresses into 13 separate pcap files, then run the label generation script provided in the paper above.
+To create the appropriate labels use tcpdump to separate the source IP addresses into 13 separate `.pcap` files, then run the label generation script provided in the paper above.
 
 Here is the table provided by University of New Brunswick:
 - Web server 16 Public: 192.168.10.50, 205.174.165.68
