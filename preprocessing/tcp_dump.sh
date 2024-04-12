@@ -4,6 +4,7 @@
 
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <pcap_file.pcap>"
+    echo "file must be in ../data/pcap"
     exit 1
 fi
 
