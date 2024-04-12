@@ -1,0 +1,7 @@
+running xgboost
+searching grid for optimal parameters
+Best Parameters: {'gamma': 0.0, 'min_child_weight': 1, 'n_estimators': 100}
+fitting model
+predicting...
+Model Accuracy: 0.7438370846730975
+F1 Score (Macro Average): 0.7547646057741446
