@@ -8,7 +8,7 @@ Data processing and machine learning application of Packet Capture (.pcap) data 
 
 `sudo configure/configure.sh`
 
-OsirisML is currently only available for installation on Debian Linux because it is reccomended to run on a server with high `RAM` capacity. Through basic testing, a `.pcap` file of about `8` gb is reccomended to have at least `128` gb of `RAM`.
+OsirisML is currently only available for installation on Debian Linux because it is recomended to run on a server with high `RAM` capacity. Through basic testing, a `.pcap` file of about `8` gb is reccomended to have at least `128` gb of `RAM`.
 
 `Ubuntu 22.04.4` is reccomended.
 
