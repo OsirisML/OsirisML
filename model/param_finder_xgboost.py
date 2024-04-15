@@ -18,11 +18,13 @@ y_test_encoded = label_encoder.transform(y_test)
 
 # Set up parameter grid for grid search
 param_grid = {
-    # 'learning_rate': [0.1, 0.01, 0.001],
-    'n_estimators': [100, 500, 1000],
-    # 'max_depth': [4, 6, 8],
-    'min_child_weight': [1, 3, 5],
-    'gamma': [0.0, 0.1, 0.2],
+    # Hyper Parameter Optimization
+    # 162 tree combinations (3 * 3 * 3 * 3 * 2)
+    n_estimators = [100, 500, 1100,],
+    max_depth = [5, 8, 12],
+    booster=['gbtree','gblinear'],
+    min_child_weight=[1,2,3],
+    'gamma': [0.0, 0.1, 0.2]
 }
 
 # Initialize XGBoost model
