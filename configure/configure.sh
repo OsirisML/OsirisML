@@ -22,7 +22,7 @@ install_python_dependencies() {
     echo "Installing Python dependencies..."
     apt install python3
     apt install python3-pip
-    pip install pandas scikit-learn xgboost
+    pip install pandas scikit-learn xgboost scapy
     echo "Python dependencies installed."
 }
 
