@@ -1,0 +1,1 @@
+To skip data preprocessing and analyze a csv file directly, place it in this directory and use xgboostmodel.py in ../model
