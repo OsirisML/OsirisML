@@ -25,9 +25,9 @@ tcpdump -r "$path_to_dir/$filename" -w "$output_dir/windows-8.1.pcap" src 192.16
 tcpdump -r "$path_to_dir/$filename" -w "$output_dir/windows-vista.pcap" src 192.168.10.8
 tcpdump -r "$path_to_dir/$filename" -w "$output_dir/windows-10-pro.pcap" src 192.168.10.14
 tcpdump -r "$path_to_dir/$filename" -w "$output_dir/windows-10.pcap" src 192.168.10.15
-tcpdump -r "$path_to_dir/$filename" -w "$output_dir/windows_mac-os-x.pcap" src 192.168.10.25
 tcpdump -r "$path_to_dir/$filename" -w "$output_dir/mac_mac-os-x.pcap" src 192.168.10.25
 tcpdump -r "$path_to_dir/$filename" -w "$output_dir/ubuntu-ubuntu-server.pcap" '(src 192.168.10.51 or src 205.174.165.66)'
 tcpdump -r "$path_to_dir/$filename" -w "$output_dir/ubuntu-web-server.pcap" '(src 192.168.10.50 or src 205.174.165.68)'
+tcpdump -r "$path_to_dir/$filename" -w "$output_dir/none_kali-linux.pcap" src 205.174.165.73
 
 echo "tcp dump complete to $output_dir"
