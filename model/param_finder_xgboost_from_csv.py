@@ -1,9 +1,18 @@
+import sys
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, f1_score
 import xgboost as xgb
 from sklearn.preprocessing import LabelEncoder
+
+# Usage message
+usage_message = "Usage: python script.py <filename.csv>"
+
+# Check if filename argument is provided
+if len(sys.argv) != 2:
+    print(usage_message)
+    sys.exit(1)
 
 # Load data
 print(f"Loading CSV File: {sys.argv[1]}")
@@ -56,6 +65,7 @@ Y_encoded = label_encoder.fit_transform(y)
 print(f"Y is encoded")
 
 # Split dataset into training and testing set
+test_size_decimal = 0.2  # Assuming test size as 20% of the data
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y_encoded, test_size=test_size_decimal, random_state=42)
 
 # Set up parameter grid for grid search
@@ -69,15 +79,14 @@ param_grid = {
     'gamma': [0.0, 0.1, 0.2]
 }
 
-
 # Initialize XGBoost model
-print("running xgboost")
+print("Running XGBoost")
 model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
 
 # Perform grid search
-print("searching grid for optimal parameters")
+print("Searching grid for optimal parameters")
 grid_search = GridSearchCV(model, param_grid, scoring='accuracy', cv=5, n_jobs=-1)
-grid_search.fit(X_train, y_train_encoded)
+grid_search.fit(X_train, Y_train)
 
 # Get best parameters
 best_params = grid_search.best_params_
@@ -91,16 +100,16 @@ with open("answers.txt", "w") as file:
 
 # Train best model
 best_model = xgb.XGBClassifier(**best_params, use_label_encoder=False, eval_metric='mlogloss')
-print("fitting model")
-best_model.fit(X_train, y_train_encoded)
+print("Fitting model")
+best_model.fit(X_train, Y_train)
 
 # Predictions
-print("predicting...")
+print("Predicting...")
 predictions = best_model.predict(X_test)
 
 # Evaluation
-accuracy = accuracy_score(y_test_encoded, predictions)
-f1 = f1_score(y_test_encoded, predictions, average='macro')
+accuracy = accuracy_score(Y_test, predictions)
+f1 = f1_score(Y_test, predictions, average='macro')
 
 print(f"Model Accuracy: {accuracy}")
 print(f"F1 Score (Macro Average): {f1}")
