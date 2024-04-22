@@ -87,21 +87,3 @@ Here is the table provided by University of New Brunswick:
 To use OSirisML with any dataset, the network data needs to be sorted by source IP. This is done best in a controlled environment, where each source IP is a unique OS.
 
 Modify the `preprocessing/tcp_dump.sh` script to label each source IP with the corresponding operating system.
-
-
-# TODO - Ordered by priority tier
-
-Optimizing model:
-
-- Optimize model with max_depth and eta params
-- Retrain model on other datasets
-
-Creating command line tool for generic use:
-
-- Have single command to execute workflow with params for: csv file for number and type of OSes, decimal value of training set size (pass in to xgboost.py, left to 0.2 by default if none given),
-- option to remove data files after each step of workflow (remove the .pcaps after they are all converted to npt, then removed the .npts after they are all csv)
-- Create test directory with small test pcap file (see nprint's repo)
-
-Extra:
-
-- Create markdown README with documentation and command line prints for errors and usage
