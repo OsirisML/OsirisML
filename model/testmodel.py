@@ -7,7 +7,7 @@ from sklearn.preprocessing import LabelEncoder
 import sys
 
 
-usage_message = "python testmodel.py <model to test> <testing data>"
+usage_message = "python3 testmodel.py <model to test> <testing data>"
 if len(sys.argv) != 3:
     print(usage_message)
     sys.exit(1)
