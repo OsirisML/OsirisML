@@ -21,4 +21,4 @@ chmod +x nprint.sh
 ./nprint.sh
 
 # Concatenates the .npt files to a single .csv and adds labels
-python3 "lisanalgaib.py" "$basename.csv"
+python3 "lisan-al-gaib.py" "$basename.csv"
