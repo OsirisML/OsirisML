@@ -16,7 +16,7 @@ if len(sys.argv) != 3 and len(sys.argv) != 4:
     print(usage_message)
     print("Note: only provide the file name, not the path. The csv file must be located in ../data/csv")
     sys.exit(1)  # Exit with error code 1
-elif len(sys.argv) == 4: # valid number of arguments
+elif len(sys.argv) == 4:  # valid number of arguments
     try:
         test_size_decimal = float(sys.argv[3])
         if not 0 <= test_size_decimal < 1:
@@ -81,10 +81,11 @@ Y_encoded = label_encoder.fit_transform(y)
 print(f"Y is encoded")
 
 # Split dataset into training and testing set
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y_encoded, test_size=test_size_decimal, random_state=42)
+X_train, X_test, Y_train, Y_test = train_test_split(
+    X, Y_encoded, test_size=test_size_decimal, random_state=42)
 # Initialize and train model
-model = xgb.XGBClassifier(booster=dart,
-    use_label_encoder=False, eval_metric='mlogloss')
+model = xgb.XGBClassifier(
+    booster='dart', use_label_encoder=False, eval_metric='mlogloss')
 print(f"Fitting begins...")
 model.fit(X_train, Y_train)
 print(f"Fit complete!")
