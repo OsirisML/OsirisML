@@ -13,9 +13,11 @@ filename="$1"
 basename=$(basename "$1" .pcap)  # Extract filename without extension
 
 # Runs tcp dump - make sure correct IPs and OSes are configured in tcp_dump.sh
+chmod +x tcp_dump.sh
 ./tcp_dump.sh $filename
 
 # Runs nprint in the ../data/pcap/pcap_os_split directory and outputs to ../data/npt
+chmod +x nprint.sh
 ./nprint.sh
 
 # Concatenates the .npt files to a single .csv and adds labels
