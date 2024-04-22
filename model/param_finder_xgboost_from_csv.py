@@ -62,12 +62,13 @@ X_train, X_test, Y_train, Y_test = train_test_split(X, Y_encoded, test_size=test
 param_grid = {
     # Hyper Parameter Optimization
     # 108 tree combinations (2 * 3 * 2 * 3 * 3)
-    n_estimators = [400, 800],
-    max_depth = [5, 8, 10],
-    booster=['gbtree','dart'],
-    min_child_weight=[1,2,3],
+    'n_estimators': [400, 800],
+    'max_depth': [5, 8, 10],
+    'booster': ['gbtree', 'dart'],
+    'min_child_weight': [1, 2, 3],
     'gamma': [0.0, 0.1, 0.2]
 }
+
 
 # Initialize XGBoost model
 print("running xgboost")
