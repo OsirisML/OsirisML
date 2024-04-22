@@ -1,4 +1,4 @@
-1. Find parameters - running on jeremy's rlogin running
+1. Find parameters - running on jeremy's rlogin
 
 2. Put every day into the VM and make them all csv's with preprocessing/process_pcap.sh (runs all 3 scripts)
 
