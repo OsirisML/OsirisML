@@ -92,4 +92,4 @@ Modify the `preprocessing/tcp_dump.sh` script to label each source IP with the c
 
 There is a `zip` file in `data/csv/` that you can `unzip` to retrieve a .csv file to test creating models with.
 
-To test the preprocessing, there is a `zip` file in `data/pcap/` that has 13 different pcap files for each OS and already had `preprocessing/tcp_dump.sh` run. You can `unzip` and move the file to a new `data/pcap/pcap_os_split/` directory (create with mkdir), where `preprocessing/nprint.sh` is expecting the .pcap files to be.
+To test the preprocessing, there is a `tar.gz` file in `data/pcap/` that has 13 different pcap files for each OS and already had `preprocessing/tcp_dump.sh` run. Extract the tar file with `tar -xzf friday_32_pcaps.tar.gz` (while in the `data/pcap/` directory), and the files will be put into `data/pcap/pcap_os_split/`, where the scripts in `preprocessing` are expecting them to be.
