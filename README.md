@@ -87,3 +87,9 @@ Here is the table provided by University of New Brunswick:
 To use OSirisML with any dataset, the network data needs to be sorted by source IP. This is done best in a controlled environment, where each source IP is a unique OS.
 
 Modify the `preprocessing/tcp_dump.sh` script to label each source IP with the corresponding operating system.
+
+# Testing Data
+
+There is a `zip` file in `data/csv/` that you can `unzip` to retrieve a .csv file to test creating models with.
+
+To test the preprocessing, there is a `zip` file in `data/pcap/` that has 13 different pcap files for each OS and already had `preprocessing/tcp_dump.sh` run. You can `unzip` and move the file to a new `data/pcap/pcap_os_split/` directory (create with mkdir), where `preprocessing/nprint.sh` is expecting the .pcap files to be.
