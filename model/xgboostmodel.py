@@ -84,8 +84,7 @@ print(f"Y is encoded")
 X_train, X_test, Y_train, Y_test = train_test_split(
     X, Y_encoded, test_size=test_size_decimal, random_state=42)
 # Initialize and train model
-model = xgb.XGBClassifier(
-    booster='dart', use_label_encoder=False, eval_metric='mlogloss')
+model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
 print(f"Fitting begins...")
 model.fit(X_train, Y_train)
 print(f"Fit complete!")
