@@ -76,7 +76,9 @@ eval_metric = 'error'  # You can change this to the appropriate metric for your 
 bst = xgb.train(params, dtrain, num_boost_round=1000, evals=evals, early_stopping_rounds=10)
 
 print(f"Training complete!")
-bst.save_model("updated_xgboost_model.json")
+# Save the trained model with a new name
+new_model_name = sys.argv[1].split('.')[0] + '_trained_' + sys.argv[2].split('.')[0] + '.json'
+bst.save_model("../model/json/" + new_model_name)
 
 # Predictions
 dtest = xgb.DMatrix(X_test)
