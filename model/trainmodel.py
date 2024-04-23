@@ -51,8 +51,10 @@ y_encoded = label_encoder.fit_transform(y)
 print(f"Y is encoded")
 
 # Split dataset into training and testing set
-X_train, X_test, y_train, y_test = train_test_split(
+X_train_val, X_test, y_train_val, y_test = train_test_split(
     X, y_encoded, test_size=0.2, random_state=42)
+X_train, X_val, y_train, y_val = train_test_split(
+    X_train_val, y_train_val, test_size=0.25, random_state=42)
 # Load the current model
 model = xgb.Booster()
 modelPath = '../model/json/' + sys.argv[1]
@@ -64,15 +66,16 @@ params = {
 }
 
 # Define your DMatrix for training and validation
-dtrain = xgb.DMatrix(X_train, label=Y_train)
-dval = xgb.DMatrix(X_val, label=Y_val)
+dtrain = xgb.DMatrix(X_train, label=y_train)
+dval = xgb.DMatrix(X_val, label=y_val)
 
 # Specify the evaluation metric and set up the watchlist
 evals = [(dtrain, 'train'), (dval, 'validation')]
 eval_metric = 'error'  # You can change this to the appropriate metric for your problem
 
 # Train the model with early stopping
-bst = xgb.train(params, dtrain, num_boost_round=1000, evals=evals, early_stopping_rounds=10)
+bst = xgb.train(params, dtrain, num_boost_round=1000,
+                evals=evals, early_stopping_rounds=10)
 
 print(f"Training complete!")
 # Save the trained model with a new name
