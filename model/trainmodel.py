@@ -60,10 +60,21 @@ model.load_model(modelPath)
 dtrain = xgb.DMatrix(X_train, label=y_train)
 print(f"Training begins...")
 params = {
-    'max_depth': 6,
+    'max_depth': 10,
     'eta': 0.05
 }
-bst = xgb.train(params, dtrain, num_boost_round=10, xgb_model=model)
+
+# Define your DMatrix for training and validation
+dtrain = xgb.DMatrix(X_train, label=Y_train)
+dval = xgb.DMatrix(X_val, label=Y_val)
+
+# Specify the evaluation metric and set up the watchlist
+evals = [(dtrain, 'train'), (dval, 'validation')]
+eval_metric = 'error'  # You can change this to the appropriate metric for your problem
+
+# Train the model with early stopping
+bst = xgb.train(params, dtrain, num_boost_round=1000, evals=evals, early_stopping_rounds=10)
+
 print(f"Training complete!")
 bst.save_model("updated_xgboost_model.json")
 
