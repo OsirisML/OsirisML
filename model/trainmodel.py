@@ -7,8 +7,8 @@ import xgboost as xgb
 from sklearn.preprocessing import LabelEncoder
 import sys
 
-usage_message = "python3 trainmodel.py <model to train> <training data>"
-if len(sys.argv) != 3:
+usage_message = "python3 trainmodel.py <model to train> <training data> <new model.json>"
+if len(sys.argv) != 4:
     print(usage_message)
     sys.exit(1)
 
@@ -60,8 +60,7 @@ model.load_model(modelPath)
 dtrain = xgb.DMatrix(X_train, label=y_train)
 print(f"Training begins...")
 params = {
-    'max_depth': 10,
-    'eta': 0.05
+    'max_depth': 10
 }
 
 # Define your DMatrix for training and validation
@@ -77,8 +76,7 @@ bst = xgb.train(params, dtrain, num_boost_round=1000, evals=evals, early_stoppin
 
 print(f"Training complete!")
 # Save the trained model with a new name
-new_model_name = sys.argv[1].split('.')[0] + '_trained_' + sys.argv[2].split('.')[0] + '.json'
-bst.save_model("../model/json/" + new_model_name)
+bst.save_model("../model/json/" + sys.argv[3])
 
 # Predictions
 dtest = xgb.DMatrix(X_test)
