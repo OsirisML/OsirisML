@@ -18,6 +18,22 @@ See `configure/installation_instructions.txt` for more information on how to ins
 
 The *.pcap* file should be placed in `data/pcap/`.
 
+Run `./preprocessing/process_pcap.sh <pcap_file.pcap>` to preprocess the *.pcap* file.
+
+-> This generates a *.csv* file to `/data/csv/`.
+
+Run `python3 xgboostmodel.py <csc_file.csv> <model_name> <OPTIONAL: test size (ex. 0.25, 0.2 by default)>`
+
+-> This generates a *.json* model to `model/json/` and also outputs the model metrics like accuracy and F1 score.
+
+**To test unseen data**:
+
+There is a `friday_model.json` file in `model/json` that can be run with `python3 testmodel.py friday_model.json <data_to_test.csv>` or another *json* model.
+
+Convert the unseen *.pcap* data to *.csv* with `preprocessing/nprint.sh` and `preprocessing/npt_to_csv.py`. This is the same preprocessing as `preprocessing/process_pcap.sh`, except it doesn't use `preprocessing/tcp_dump.sh`, since the actual OSes are unknown.
+
+-> This is how you would actually use a model to **passively** identify operating systems on unseen data.
+
 # Overview of workflow
 
 [Workflow Diagram PDF](OSirisML.pdf)
@@ -25,6 +41,8 @@ The *.pcap* file should be placed in `data/pcap/`.
 This open-source tool is built off the work on passive OS detection using nprint and nprintML.
 
 https://arxiv.org/pdf/2008.02695.pdf
+
+**Preprocessing - /preprocessing/process_pcap.sh**
 
 1. Labeling each source IP to its OS
 
@@ -47,6 +65,8 @@ Note: OSirisML is configured to work with `nprint-1.2.1`. To use a newer version
 These *.npt* files are combined to a single *csv* file using a custom `Python` script in `preprocessing`.
 
 This script appends the corresponding label identified from the source IP to the last column of the *csv* file.
+
+**Machine Learning Application**
 
 4. Apply machine learning model, XGBoost, to the labeled tabular data to create a classification model.
 
@@ -71,19 +91,21 @@ https://xgboost.readthedocs.io/en/stable/
 
 6. Retrain model on additional CSV data with `model/trainmodel.py`. Run `python3 model/trainmodel.py` for usage.
 
-7. Test a model on unseen CSV data. Run `python3 testmodel.py` for usage.
-
--> This is how you would actually use a model to **passively** identify operating systems on unseen data. The *.pcap* data would need to be transformed into a .csv with `./preprocessing/process_pcap.sh`, which shows usage.
+7. Test a model on unseen CSV data. Run `python3 model/testmodel.py` for usage.
 
 # Results with CIC-IDS2017 Dataset
 
-Replicating section 5.2 with xgboost saw an Accuracy score of **84.91%** with an F1 Score of **82.96%**
+Using *Friday-WorkingHours.pcap* from
 
-This was run on *Friday-WorkingHours.pcap* from `http://205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/CIC-IDS-2017/PCAPs/`, which is a 8.2 gb *.pcap* file.
+`http://205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/CIC-IDS-2017/PCAPs/`, which is a 8.2 gb *.pcap* file with over 4.5 million samples,
+
+saw an Accuracy score of **84.91%** with an F1 Score of **82.96%**.
 
 Data split: 80% Training/validation, 20% testing.
 
-To create the appropriate labels use tcpdump to separate the source IP addresses into 13 separate *.pcap* files, then run the label generation script provided in the paper above.
+This was run on a VM operating `Ubuntu 22.04.4` with 128 gb of RAM.
+
+# Default OSes and source IP's in preprocessing/tcp_dump.sh
 
 Here is the table provided by University of New Brunswick, which is are the default OSes in `preprocessing/tcp_dump.sh`:
 - Web server 16 Public: 192.168.10.50, 205.174.165.68
@@ -100,8 +122,9 @@ Here is the table provided by University of New Brunswick, which is are the defa
 - MAC: 192.168.10.25
 - Kali: 205.174.165.73
 
+To generate a new model with different OSes (and source IP's), modify the `preprocessing/tcp_dump.sh` script.
 
-# Implementation with PCAP data
+# Implementation with new PCAP data
 
 To use OSirisML with any dataset, the network data needs to be sorted by source IP. This is done best in a controlled environment, where each source IP is a unique OS.
 
@@ -109,6 +132,10 @@ Modify the `preprocessing/tcp_dump.sh` script to label each source IP with the c
 
 # Testing Data
 
+To test model creation:
+
 There is a `zip` file in `data/csv/` that you can `unzip` to retrieve a .csv file to test creating models with.
 
-To test the preprocessing, there is a `tar.gz` file in `data/pcap/` that has 13 different pcap files for each OS and already had `preprocessing/tcp_dump.sh` run. Extract the tar file with `tar -xzf friday_32_pcaps.tar.gz` (while in the `data/pcap/` directory), and the files will be put into `data/pcap/pcap_os_split/`, where the scripts in `preprocessing` are expecting them to be.
+To test the preprocessing:
+
+There is a `tar.gz` file in `data/pcap/` that has 13 different pcap files for each OS and already had `preprocessing/tcp_dump.sh` run. Extract the tar file with `tar -xzf friday_32_pcaps.tar.gz` (while in the `data/pcap/` directory), and the files will be put into `data/pcap/pcap_os_split/`, where the scripts in `preprocessing` are expecting them to be.
