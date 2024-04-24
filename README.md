@@ -36,6 +36,8 @@ https://www.tcpdump.org/
 
 Using nprint, the open-source `.pcap` preprocessing tool, the `.pcap` data is transformed into `.npt` data.
 
+This runs in `preprocessing/nprint.sh`
+
 https://github.com/nprint/nprint
 
 Note: OSirisML is configured to work with `nprint-1.2.1`. To use a newer version, **see nprint's github for installation instructions** and replace the `tar` file in `configure`.
@@ -60,13 +62,30 @@ This data is trained using `XGBoost`, an open-source machine learning tool that 
 
 https://xgboost.readthedocs.io/en/stable/
 
+
+**Additional Steps**
+
+5. Mine for optimal parameters specific to the .csv file with `param_finder_xgboost_from_csv.py`. Note there is an alternative param miner script that takes 4 .npy files as input instead of a single .csv.
+
+-> Modify the param_grid to specify the parameters to mine for. See `https://xgboost.readthedocs.io/en/stable/parameter.html` for all parameters.
+
+6. Retrain model on additional CSV data with `model/trainmodel.py`. Run `python3 model/trainmodel.py` for usage.
+
+7. Test a model on unseen CSV data. Run `python3 testmodel.py` for usage.
+
+-> This is how you would actually use a model to **passively** identify operating systems on unseen data. The PCAP data would need to be transformed into a .csv with `./preprocessing/process_pcap.sh`, which shows usage.
+
 # Results with CIC-IDS2017 Dataset
 
-Replicating section 5.2 with xgboost saw an Accuracy score of 74.38% with an F1 Score of 75.48%
+Replicating section 5.2 with xgboost saw an Accuracy score of **84.91%** with an F1 Score of **82.96%**
+
+This was run on *Friday-Working-Hours.pcap* from `http://205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/CIC-IDS-2017/PCAPs/`, which is a 8.2 gb PCAP file.
+
+Data split: 80% Training/validation, 20% testing.
 
 To create the appropriate labels use tcpdump to separate the source IP addresses into 13 separate `.pcap` files, then run the label generation script provided in the paper above.
 
-Here is the table provided by University of New Brunswick:
+Here is the table provided by University of New Brunswick, which is are the default OSes in `preprocessing/tcp_dump.sh`:
 - Web server 16 Public: 192.168.10.50, 205.174.165.68
 - Ubuntu server 12 Public: 192.168.10.51, 205.174.165.66
 - Ubuntu 14.4, 32B: 192.168.10.19
