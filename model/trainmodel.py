@@ -71,7 +71,8 @@ dval = xgb.DMatrix(X_val, label=y_val)
 
 # Specify the evaluation metric and set up the watchlist
 evals = [(dtrain, 'train'), (dval, 'validation')]
-eval_metric = 'error'  # You can change this to the appropriate metric for your problem
+# You can change this to the appropriate metric for your problem
+eval_metric = 'mlogloss'
 
 # Train the model with early stopping
 bst = xgb.train(params, dtrain, num_boost_round=1000,
