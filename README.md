@@ -8,7 +8,7 @@ Data processing and machine learning application of Packet Capture (.pcap) data 
 
 `sudo configure/configure.sh`
 
-OsirisML is currently only available for installation on Debian Linux because it is recommended to run on a server with high `RAM` capacity. Through basic testing, a `.pcap` file of about `8` gb is reccomended to have at least `128` gb of `RAM`.
+OsirisML is currently only available for installation on Debian Linux because it is recommended to run on a server with high `RAM` capacity. Through basic testing, a *.pcap* file of about `8` gb is reccomended to have at least `128` gb of `RAM`.
 
 `Ubuntu 22.04.4` is reccomended.
 
@@ -16,7 +16,7 @@ See `configure/installation_instructions.txt` for more information on how to ins
 
 # Usage
 
-The `.pcap` file should be placed in `data/pcap/`.
+The *.pcap* file should be placed in `data/pcap/`.
 
 # Overview of workflow
 
@@ -28,13 +28,13 @@ https://arxiv.org/pdf/2008.02695.pdf
 
 1. Labeling each source IP to its OS
 
-Given a `.pcap` file and identifying source IPs, `preprocessing/tcp_dump.sh` is run to call `tcpdump` on the `.pcap` file for each source IP, so the model is given classiciation labels for each element. `tcpdump` takes arguments of the source IP and corresponding OS. **The source IP's must be provided in**  `preprocessing/tcp_dump.sh`.
+Given a *.pcap* file and identifying source IPs, `preprocessing/tcp_dump.sh` is run to call `tcpdump` on the *.pcap* file for each source IP, so the model is given classiciation labels for each element. `tcpdump` takes arguments of the source IP and corresponding OS. **The source IP's must be provided in**  `preprocessing/tcp_dump.sh`.
 
 https://www.tcpdump.org/
 
-2. Converting `.pcap` to tabular data `.npt`
+2. Converting *.pcap* to tabular data *.npt*
 
-Using nprint, the open-source `.pcap` preprocessing tool, the `.pcap` data is transformed into `.npt` data.
+Using nprint, the open-source *.pcap* preprocessing tool, the *.pcap* data is transformed into *.npt* data.
 
 This runs in `preprocessing/nprint.sh`
 
@@ -42,15 +42,15 @@ https://github.com/nprint/nprint
 
 Note: OSirisML is configured to work with `nprint-1.2.1`. To use a newer version, **see nprint's github for installation instructions** and replace the `tar` file in `configure`.
 
-3. Combine the `.npt` files to a single labeled `.csv` file.
+3. Combine the *.npt* files to a single labeled *csv* file.
 
-These `.npt` files are combined to a single `.csv` file using a custom `Python` script in `preprocessing`.
+These *.npt* files are combined to a single *csv* file using a custom `Python` script in `preprocessing`.
 
-This script appends the corresponding label identified from the source IP to the last column of the `.csv` file.
+This script appends the corresponding label identified from the source IP to the last column of the *csv* file.
 
 4. Apply machine learning model, XGBoost, to the labeled tabular data to create a classification model.
 
-This `.csv` file is split into `X_train`, `X_test`, `Y_train`, and `Y_test` data, where X is the `960` attributes of tabular data, and Y is the corresponding operating system classification. This is done with `Pandas`, an open-source data manipulation tool, and `scikit-learn`, an open-source machine learning Python library.
+This *csv* file is split into `X_train`, `X_test`, `Y_train`, and `Y_test` data, where X is the `960` attributes of tabular data, and Y is the corresponding operating system classification. This is done with `Pandas`, an open-source data manipulation tool, and `scikit-learn`, an open-source machine learning Python library.
 
 https://pandas.pydata.org/
 
@@ -73,17 +73,17 @@ https://xgboost.readthedocs.io/en/stable/
 
 7. Test a model on unseen CSV data. Run `python3 testmodel.py` for usage.
 
--> This is how you would actually use a model to **passively** identify operating systems on unseen data. The PCAP data would need to be transformed into a .csv with `./preprocessing/process_pcap.sh`, which shows usage.
+-> This is how you would actually use a model to **passively** identify operating systems on unseen data. The *.pcap* data would need to be transformed into a .csv with `./preprocessing/process_pcap.sh`, which shows usage.
 
 # Results with CIC-IDS2017 Dataset
 
 Replicating section 5.2 with xgboost saw an Accuracy score of **84.91%** with an F1 Score of **82.96%**
 
-This was run on *Friday-Working-Hours.pcap* from `http://205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/CIC-IDS-2017/PCAPs/`, which is a 8.2 gb PCAP file.
+This was run on *Friday-WorkingHours.pcap* from `http://205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/CIC-IDS-2017/PCAPs/`, which is a 8.2 gb *.pcap* file.
 
 Data split: 80% Training/validation, 20% testing.
 
-To create the appropriate labels use tcpdump to separate the source IP addresses into 13 separate `.pcap` files, then run the label generation script provided in the paper above.
+To create the appropriate labels use tcpdump to separate the source IP addresses into 13 separate *.pcap* files, then run the label generation script provided in the paper above.
 
 Here is the table provided by University of New Brunswick, which is are the default OSes in `preprocessing/tcp_dump.sh`:
 - Web server 16 Public: 192.168.10.50, 205.174.165.68
