@@ -1,0 +1,16 @@
+IP,OS
+192.168.10.50,ubuntu-web-server
+205.174.165.68,ubuntu-web-server
+192.168.10.51,ubuntu-server
+205.174.165.66,ubuntu-server
+192.168.10.19,ubuntu-14.4-32b
+192.168.10.17,ubuntu-14.4-64b
+192.168.10.16,ubuntu-16.4-32b
+192.168.10.12,ubuntu-16.4-64b
+192.168.10.9,windows-7-pro
+192.168.10.5,windows-8.1
+192.168.10.8,windows-vista
+192.168.10.14,windows-10-pro
+192.168.10.15,windows-10
+192.168.10.25,mac_mac-os-x
+205.174.165.73,none_kali-linux
