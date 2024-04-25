@@ -34,9 +34,9 @@ Convert the unseen *.pcap* data to *.csv* with `preprocessing/nprint.sh` and `pr
 
 -> This is how you would actually use a model to **passively** identify operating systems on unseen data.
 
-# Overview of workflow
+# Overview of Workflow
 
-[Workflow Diagram PDF](OSirisML.pdf)
+[Workflow Diagram PDF](OsirisML.pdf)
 
 This open-source tool is built off the work on passive OS detection using nprint and nprintML.
 
@@ -105,7 +105,7 @@ Data split: 80% Training/validation, 20% testing.
 
 This was run on a VM operating `Ubuntu 22.04.4` with 128 gb of RAM.
 
-# Default OSes and source IP's in preprocessing/tcp_dump.sh
+# Default OSes and Source IP's in preprocessing/tcp_dump.sh
 
 Here is the table provided by University of New Brunswick, which is are the default OSes in `preprocessing/tcp_dump.sh`:
 - Web server 16 Public: 192.168.10.50, 205.174.165.68
@@ -124,7 +124,7 @@ Here is the table provided by University of New Brunswick, which is are the defa
 
 To generate a new model with different OSes (and source IP's), modify the `preprocessing/tcp_dump.sh` script.
 
-# Implementation with new PCAP data
+# Implementation with New PCAP Data
 
 To use OSirisML with any dataset, the network data needs to be sorted by source IP. This is done best in a controlled environment, where each source IP is a unique OS.
 
