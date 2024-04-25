@@ -1,7 +1,0 @@
-1. Find parameters - running on jeremy's rlogin
-
-2. Put every day into the VM and make them all csv's with preprocessing/process_pcap.sh (runs all 3 scripts)
-
-3. run xgboostmodel.py on friday, then retrain on other days
-
-4. Run nprintML to compare results
