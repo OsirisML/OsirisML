@@ -20,5 +20,13 @@ chmod +x tcp_dump.sh
 chmod +x nprint.sh
 ./nprint.sh
 
+# removes the split .pcap files that are no longer needed
+rm -rf ../data/pcap/pcap_os_split/
+
 # Concatenates the .npt files to a single .csv and adds labels
 python3 "lisan-al-gaib.py" "$basename.csv"
+
+# removes the .npt files that are no longer needed
+rm -rf ../data/npt/
+
+echo "PCAP finished processing. Use ../model to generate, retrain, and test models from this .csv"
