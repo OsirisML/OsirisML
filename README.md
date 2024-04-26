@@ -85,9 +85,11 @@ https://xgboost.readthedocs.io/en/stable/
 
 **Additional Steps**
 
-5. Mine for optimal parameters specific to the .csv file with `param_finder_xgboost_from_csv.py`. Note there is an alternative param miner script that takes 4 .npy files as input instead of a single .csv.
+5. Mine for optimal parameters specific to the .csv file with `hyperparameter_tuning.py`. Note there is an alternative param miner script in deprecated that takes 4 .npy files as input instead of a single .csv.
 
--> Modify the param_grid to specify the parameters to mine for. See `https://xgboost.readthedocs.io/en/stable/parameter.html` for all parameters.
+-> Modify the param_grid to specify the parameters to mine for.
+
+See `https://xgboost.readthedocs.io/en/stable/parameter.html` for all parameters.
 
 6. Retrain model on additional CSV data with `model/trainmodel.py`. Run `python3 model/trainmodel.py` for usage.
 
