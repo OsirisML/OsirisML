@@ -9,7 +9,7 @@ from sklearn.preprocessing import LabelEncoder
 # By default, a test size of 0.2 is used. See usage to use an additional sys arg to change this
 
 test_size_decimal = 0.2
-usage_message = "Usage: python3 <this_script.py> <csv filename wth .csv> <model name with no extension> OPTIONAL:<decimal for test split size, [0 - 1)>"
+usage_message = "Usage: python3 <this_script.py> <data.csv> <model_name.json> OPTIONAL:<decimal for test split size, [0 - 1)>"
 
 # Check if the correct number of arguments are provided
 if len(sys.argv) != 3 and len(sys.argv) != 4:
@@ -88,7 +88,7 @@ model = xgb.XGBClassifier(max_depth=10, use_label_encoder=False, eval_metric='ml
 print(f"Fitting begins...")
 model.fit(X_train, Y_train)
 print(f"Fit complete!")
-model.save_model("json/" + sys.argv[2] + ".json")
+model.save_model("json/" + sys.argv[2])
 # Predictions
 print("Testing model with test size of " + str(test_size_decimal))
 predictions = model.predict(X_test)

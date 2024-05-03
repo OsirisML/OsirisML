@@ -7,7 +7,7 @@ import xgboost as xgb
 from sklearn.preprocessing import LabelEncoder
 import sys
 
-usage_message = "python3 trainmodel.py <model to train> <training data> <new model.json>"
+usage_message = "python3 trainmodel.py <model.json> <data.csv> <new model.json>"
 if len(sys.argv) != 4:
     print(usage_message)
     sys.exit(1)
