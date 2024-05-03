@@ -2,8 +2,8 @@ import pandas as pd
 import os
 import sys
 
-# "npt_to_csv.py"
 # This file takes the split npt files by OS and combines them into one CSV file
+
 # Note: This file assumes the npt files are located in ../data/npt
 #   The csv file will be written to ../data/csv
 
