@@ -36,7 +36,7 @@ Convert the unseen *.pcap* data to *.csv* with `preprocessing/nprint.sh` and `pr
 
 # Overview of Workflow
 
-[Workflow Diagram PDF](OsirisML.jpg)
+[Workflow Diagram JPEG](OsirisML.jpeg)
 
 This open-source tool is built off the work on passive OS detection using nprint and nprintML.
 
