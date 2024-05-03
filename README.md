@@ -36,7 +36,7 @@ Convert the unseen *.pcap* data to *.csv* with `preprocessing/nprint.sh` and `pr
 
 # Overview of Workflow
 
-[Workflow Diagram PDF](OsirisML.pdf)
+[Workflow Diagram PDF](OsirisML.jpg)
 
 This open-source tool is built off the work on passive OS detection using nprint and nprintML.
 
@@ -99,7 +99,9 @@ See `https://xgboost.readthedocs.io/en/stable/parameter.html` for all parameters
 
 Using *Friday-WorkingHours.pcap* from
 
-`http://205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/CIC-IDS-2017/PCAPs/`, which is a 8.2 gb *.pcap* file with over 4.5 million samples,
+http://205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/CIC-IDS-2017/PCAPs/
+
+which is a 8.2 gb *.pcap* file with over 4.5 million samples,
 
 saw an Accuracy score of **84.91%** with an F1 Score of **82.96%**.
 
