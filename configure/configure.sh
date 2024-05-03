@@ -30,6 +30,11 @@ install_python_dependencies() {
 main() {
     install_nprint
     install_python_dependencies
+
+    # add executable permission to preprocessing scripts
+    chmod +x ../preprocessing/nprint.sh
+    chmod +x ../preprocessing/tcp_dump.sh
+    chmod +x ../preprocessing/process_pcap.sh
 }
 
 # Execute main function
