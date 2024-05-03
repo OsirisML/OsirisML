@@ -24,7 +24,7 @@ chmod +x nprint.sh
 rm -rf ../data/pcap/pcap_os_split/
 
 # Concatenates the .npt files to a single .csv and adds labels
-python3 "lisan-al-gaib.py" "$basename.csv"
+python3 "npt_to_csv.py" "$basename.csv"
 
 # removes the .npt files that are no longer needed
 rm -rf ../data/npt/
