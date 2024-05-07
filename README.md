@@ -38,7 +38,7 @@ There is a *friday_model.json* file in *model/json* that can be run with:
 
 `python3 testmodel.py friday_model.json <data_to_test.csv>` or another *json* model.
 
-See Phase 2 for more usage.
+See 'Machine Learning Application' for more usage.
 
 # Preprocessing
 
