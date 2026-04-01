@@ -1,154 +1,202 @@
-# OS Fingerprinting
+# OsirisML - Passive OS Fingerprinting
 
 Data processing and machine learning application of Packet Capture (.pcap) data to passively identify operating systems.
 
-# Installation on Debian Linux:
+[Workflow Diagram](OsirisML.jpeg)
 
-`git clone https://github.com/osirisml/osirisml.git`
+# Installation
 
-`chmod +x configure/configure.sh`
+OsirisML is currently only available for Debian Linux. It is recommended to run on a server with high RAM capacity. Through basic testing, a .pcap file of about 8 GB requires at least 128 GB of RAM. *Ubuntu 22.04.4* is recommended.
 
-`sudo configure/configure.sh`
+```
+git clone https://github.com/osirisml/osirisml.git
+cd osirisml
+```
 
-OsirisML is currently only available for installation on Debian Linux because it is recommended to run on a server with high RAM capacity. Through basic testing, a *.pcap* file of about 8 gb is reccomended to have at least 128 gb of RAM.
+### Option 1: Using Make (recommended)
 
-*Ubuntu 22.04.4* is reccomended.
+```
+make install
+```
 
-See *configure/installation_instructions.txt* for more information on how to install dependencies.
+### Option 2: Manual setup
 
-# Overview and Basic Usage
+Install nprint:
 
-There are two phases to OsirisML - preprocessing and ML application.
+```
+sudo apt-get install -y libpcap-dev g++ make
+cd configure
+tar -xvf nprint-1.2.1.tar.gz
+cd nprint-1.2.1
+./configure
+make
+sudo make install
+cd ../..
+```
 
-[Workflow Diagram JPEG](OsirisML.jpeg)
+Install Python dependencies:
 
-To preprocess the data, run:
+```
+pip install -r requirements.txt
+```
 
-`./preprocessing/process_pcap.sh <pcap_file.pcap>`
+See *configure/installation_instructions.txt* for more information on dependencies.
 
-To generate a model with the resulting *csv*, run:
+# Quick Start
 
-`python3 xgboostmodel.py <csv_file.csv> <model_name.json>`
+All commands can be run from the project root using `make`. Run `make help` to see all available commands.
 
--> This generates a *json* model to *model/json/* and also outputs the model metrics like accuracy and F1 score.
+### Full pipeline (raw .pcap to model)
 
-**To test unseen data**:
+```
+make preprocess PCAP=your_file.pcap
+make train CSV=your_file.csv MODEL=my_model.json
+```
 
-There is a *friday_model.json* file in *model/json* that can be run with:
+### Using pre-split test data
 
-`python3 testmodel.py friday_model.json <data_to_test.csv>` or another *json* model.
+Extract the test pcap data:
 
-See 'Machine Learning Application' for more usage.
+```
+cd data/pcap
+tar -xzf friday_32_pcaps.tar.gz
+cd ../..
+```
 
-# Preprocessing
+Run nprint and generate the CSV:
 
-In the *preprocessing/* directory, this entire phase can simply be run with:
+```
+make nprint
+make csv CSV=output.csv
+```
 
-`./process_pcap.sh <pcap_file.pcap>`
+Train a new model or test with the pre-trained one:
 
-which calls the following 3 scripts in succession to generate a *csv* to *data/csv/*:
+```
+make train CSV=output.csv MODEL=my_model.json
+make test MODEL=friday_model.json CSV=output.csv
+```
 
-1. **tcp_dump.sh** - Labels each source IP to its OS.
+# Overview
 
-Usage: `./tcp_dump.sh`
+There are two phases to OsirisML - **preprocessing** and **ML application**.
 
-Given a *.pcap* file and identifying source IPs, this script is run to call *tcpdump*` on the *.pcap* file for each source IP, so the model is given classiciation labels for each element. *tcpdump* takes arguments of the source IP and corresponding OS. **The source IP's must be provided in preprocessing/tcp_dump.sh**.
+## Preprocessing
 
-https://www.tcpdump.org/
+The preprocessing pipeline converts raw .pcap files into labeled CSV data. It can be run as a single command:
 
-2. **./nprint.sh** - Uses the open-source tool nPrint on all the *pcap* files.
+```
+make preprocess PCAP=your_file.pcap
+```
 
-Usage: `./nprint.sh`
+Or as individual steps:
 
-This converts all *.pcap* files in *data/pcap/pcap_os_split/* to tabular *npt* files to *data/npt/*.
+1. **tcp_dump.sh** - Splits a .pcap file by source IP and labels each split with its OS. Source IPs and OS labels must be configured in *preprocessing/tcp_dump.sh*.
 
-https://github.com/nprint/nprint
+   https://www.tcpdump.org/
 
-Note: OSirisML is configured to work with *nprint-1.2.1*. To use a newer version, **see nprint's github for installation instructions** and replace the *tar* file in *configure/*.
+2. **nprint.sh** - Converts all .pcap files in *data/pcap/pcap_os_split/* to tabular .npt files in *data/npt/* using the nPrint tool.
 
-3. **npt_to_csv.py** - combines all the *.npt* files to a single labeled *csv* file placed into *data/csv/*.
+   ```
+   make nprint
+   ```
 
-Usage: `npt_to_csv.py <new_file.csv>`
+   https://github.com/nprint/nprint
 
-This script appends the corresponding label identified from the source IP to the last column of the *csv* file.
+   Note: OsirisML is configured to work with *nprint-1.2.1*. To use a newer version, see nprint's GitHub for installation instructions and replace the tar file in *configure/*.
 
-# Machine Learning Application
+3. **npt_to_csv.py** - Combines all .npt files into a single labeled CSV file in *data/csv/*.
 
-Apply Machine Learning scripts in the *model* directory. All resulting *json* models will be in *model/json/*.
+   ```
+   make csv CSV=output.csv
+   ```
 
-1. **xgboostmodel.py** - applies XGBoost, a machine learning tool, to the labeled tabular data to create a classification model.
+## Machine Learning Application
 
-Usage: `python3 xgboostmodel.py <data.csv> <modelname> <OPTIONAL: <decimal for test split size>`
+All model scripts are in the *model/* directory. Trained models are saved to *model/json/*. Feature importance plots are saved to *model/feature_importance/*.
 
-By default, a test size of 0.2 is used.
+1. **xgboostmodel.py** - Trains an XGBoost classifier on the labeled CSV data and generates feature importance plots.
 
-2. **hyperparameter_tuning.py* - mines for optimal parameters specific to the *csv* file.
+   ```
+   make train CSV=data.csv MODEL=modelname.json
+   ```
 
-Usage: `python3 hyperparameter\_tuning.py <data.csv>`
+   An optional test split size (default 0.2) can be passed when running directly:
 
--> Modify the param_grid to specify the parameters to mine for. Note that complex grids require immense time and resources.
+   ```
+   cd model
+   python3 xgboostmodel.py data.csv modelname.json 0.3
+   ```
 
-See https://xgboost.readthedocs.io/en/stable/parameter.html for all parameters.
+2. **hyperparameter_tuning.py** - Searches for optimal XGBoost parameters for a given dataset.
 
-3. **trainmodel.py** - retrains a model on additional *csv* data.
+   ```
+   make tune CSV=data.csv
+   ```
 
-Usage: `python3 trainmodel.py <current\_model.json> <data.csv> <new.json>`
+   Modify the `param_grid` in the script to specify which parameters to search. Complex grids require significant time and resources.
 
-4. **testmodel.py** - uses a supplied model to test a *csv* file. This is the **passive OS Fingerprinting** portion.
+   See https://xgboost.readthedocs.io/en/stable/parameter.html for all parameters.
 
-Usage: `python3 testmodel.py <model.json> <data.csv>`
+3. **trainmodel.py** - Retrains an existing model on additional CSV data.
 
-https://xgboost.readthedocs.io/en/stable/
+   ```
+   cd model
+   python3 trainmodel.py current_model.json data.csv new_model.json
+   ```
 
-https://pandas.pydata.org/
+4. **testmodel.py** - Tests a model against a CSV file. This is the **passive OS fingerprinting** step.
 
-https://scikit-learn.org/stable/
+   ```
+   make test MODEL=model.json CSV=data.csv
+   ```
+
+### Dependencies
+
+- https://xgboost.readthedocs.io/en/stable/
+- https://pandas.pydata.org/
+- https://scikit-learn.org/stable/
 
 # Results with CIC-IDS2017 Dataset
 
-Using *Friday-WorkingHours.pcap* from
+Using *Friday-WorkingHours.pcap* from the [CIC-IDS-2017 dataset](http://205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/CIC-IDS-2017/PCAPs/) (8.2 GB, over 4.5 million samples):
 
-http://205.174.165.80/CICDataset/CIC-IDS-2017/Dataset/CIC-IDS-2017/PCAPs/
+- **Accuracy: 84.91%**
+- **F1 Score: 82.96%**
 
-which is a 8.2 gb *.pcap* file with over 4.5 million samples,
+Data split: 80% training/validation, 20% testing. Run on a VM with *Ubuntu 22.04.4* and 128 GB of RAM.
 
-saw an Accuracy score of **84.91%** with an F1 Score of **82.96%**.
+# Default OSes and Source IPs
 
-Data split: 80% Training/validation, 20% testing.
+These are the default OS labels and source IPs in *preprocessing/tcp_dump.sh*, based on the CIC-IDS2017 network topology from the University of New Brunswick:
 
-This was run on a VM operating *Ubuntu 22.04.4* with 128 gb of RAM.
+| OS | Source IP(s) |
+|---|---|
+| Web server 16 Public | 192.168.10.50, 205.174.165.68 |
+| Ubuntu server 12 Public | 192.168.10.51, 205.174.165.66 |
+| Ubuntu 14.4, 32B | 192.168.10.19 |
+| Ubuntu 14.4, 64B | 192.168.10.17 |
+| Ubuntu 16.4, 32B | 192.168.10.16 |
+| Ubuntu 16.4, 64B | 192.168.10.12 |
+| Win 7 Pro, 64B | 192.168.10.9 |
+| Win 8.1, 64B | 192.168.10.5 |
+| Win Vista, 64B | 192.168.10.8 |
+| Win 10, Pro 32B | 192.168.10.14 |
+| Win 10, 64B | 192.168.10.15 |
+| MAC | 192.168.10.25 |
+| Kali | 205.174.165.73 |
 
-# Default OSes and Source IP's in preprocessing/tcp_dump.sh
-
-Here is the table provided by University of New Brunswick, which is are the default OSes in *preprocessing/tcp_dump.sh*:
-- Web server 16 Public: 192.168.10.50, 205.174.165.68
-- Ubuntu server 12 Public: 192.168.10.51, 205.174.165.66
-- Ubuntu 14.4, 32B: 192.168.10.19
-- Ubuntu 14.4, 64B: 192.168.10.17
-- Ubuntu 16.4, 32B: 192.168.10.16
-- Ubuntu 16.4, 64B: 192.168.10.12
-- Win 7 Pro, 64B: 192.168.10.9
-- Win 8.1, 64B: 192.168.10.5
-- Win Vista, 64B: 192.168.10.8
-- Win 10, pro 32B: 192.168.10.14
-- Win 10, 64B: 192.168.10.15
-- MAC: 192.168.10.25
-- Kali: 205.174.165.73
-
-To generate a new model with different OSes (and source IP's), modify the *preprocessing/tcp_dump.sh* script.
-
-# Implementation with New PCAP Data
-
-To use OSirisML with any dataset, the network data needs to be sorted by source IP. This is done best in a controlled environment, where each source IP is a unique OS.
-
-Modify the *preprocessing/tcp_dump.sh* script to label each source IP with the corresponding operating system.
+To use OsirisML with a different dataset, modify *preprocessing/tcp_dump.sh* to map each source IP to its corresponding OS. This works best in a controlled environment where each source IP is a unique OS.
 
 # Testing Data
 
-To test model creation:
+**To test model creation:** There is a zip file in *data/csv/* that can be unzipped to retrieve a CSV for testing model generation.
 
-There is a *zip* file in *data/csv/* that you can unzip to retrieve a .csv file to test creating models with.
+**To test preprocessing:** There is a *tar.gz* file in *data/pcap/* with 13 pre-split pcap files (one per OS). Extract with:
 
-To test the preprocessing:
+```
+cd data/pcap
+tar -xzf friday_32_pcaps.tar.gz
+```
 
-There is a *tar.gz* file in *data/pcap/* that has 13 different pcap files for each OS and already had *preprocessing/tcp_dump.sh* run. Extract the tar file with `tar -xzf friday_32_pcaps.tar.gz` (while in the *data/pcap/* directory), and the files will be put into *data/pcap/pcap_os_split/*, where the scripts in *preprocessing* are expecting them to be.
+The files will be placed into *data/pcap/pcap_os_split/*, where the preprocessing scripts expect them.

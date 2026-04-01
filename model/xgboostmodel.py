@@ -1,9 +1,12 @@
 import pandas as pd
 import sys
+import os
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score
 import xgboost as xgb
 from sklearn.preprocessing import LabelEncoder
+import matplotlib.pyplot as plt
+import numpy as np
 
 # Creates a binary file for the OS fingerprint model using XGBoost
 # By default, a test size of 0.2 is used. See usage to use an additional sys arg to change this
@@ -99,3 +102,44 @@ f1 = f1_score(Y_test, predictions, average='macro')
 
 print(f"Model Accuracy: {accuracy}")
 print(f"F1 Score (Macro Average): {f1}")
+
+# Plot feature importance
+feature_importance_dir = "feature_importance"
+os.makedirs(feature_importance_dir, exist_ok=True)
+
+feature_names = df.columns[:-1]
+importances = model.feature_importances_
+
+# Bar chart of top 30 features by importance
+sorted_idx = np.argsort(importances)[::-1]
+top_n = min(30, len(importances))
+top_idx = sorted_idx[:top_n]
+
+plt.figure(figsize=(12, 8))
+plt.bar(range(top_n), importances[top_idx])
+plt.xticks(range(top_n), feature_names[top_idx], rotation=90, fontsize=8)
+plt.title("Top Feature Importances (weight)")
+plt.xlabel("Feature")
+plt.ylabel("Importance")
+plt.tight_layout()
+plt.savefig(os.path.join(feature_importance_dir, "feature_importance_bar.png"), dpi=150)
+plt.close()
+print(f"Saved bar chart to {feature_importance_dir}/feature_importance_bar.png")
+
+# XGBoost built-in importance plot (weight)
+fig, ax = plt.subplots(figsize=(10, 12))
+xgb.plot_importance(model, max_num_features=30, importance_type='weight', ax=ax)
+plt.title("Feature Importance (weight)")
+plt.tight_layout()
+plt.savefig(os.path.join(feature_importance_dir, "feature_importance_weight.png"), dpi=150)
+plt.close()
+print(f"Saved weight plot to {feature_importance_dir}/feature_importance_weight.png")
+
+# XGBoost built-in importance plot (gain)
+fig, ax = plt.subplots(figsize=(10, 12))
+xgb.plot_importance(model, max_num_features=30, importance_type='gain', ax=ax)
+plt.title("Feature Importance (gain)")
+plt.tight_layout()
+plt.savefig(os.path.join(feature_importance_dir, "feature_importance_gain.png"), dpi=150)
+plt.close()
+print(f"Saved gain plot to {feature_importance_dir}/feature_importance_gain.png")

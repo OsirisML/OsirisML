@@ -1,31 +1,16 @@
-data/pcap/friday_pcap.pcap
-data/pcap/pcap_os_split/friday_pcap_mac_mac-os-x.pcap
-data/pcap/pcap_os_split/friday_pcap_ubuntu-14.4-32b.pcap
-data/pcap/pcap_os_split/friday_pcap_windows-vista.pcap
-data/pcap/pcap_os_split/friday_pcap_windows-10.pcap
-data/pcap/pcap_os_split/friday_pcap_windows-10-pro.pcap
-data/pcap/pcap_os_split/friday_pcap_windows-8.1.pcap
-data/pcap/pcap_os_split/friday_pcap_windows-7-pro.pcap
-data/pcap/pcap_os_split/friday_pcap_windows_mac-os-x.pcap
-data/pcap/pcap_os_split/friday_pcap_ubuntu-web-server.pcap
-data/pcap/pcap_os_split/friday_pcap_ubuntu-ubuntu-server.pcap
-data/pcap/pcap_os_split/friday_pcap_ubuntu-16.4-64b.pcap
-data/pcap/pcap_os_split/friday_pcap_ubuntu-16.4-32b.pcap
-data/pcap/pcap_os_split/friday_pcap_ubuntu-14.4-64b.pcap
-data/npt/friday_pcap_windows-vista.npt
-data/npt/friday_pcap_windows-10.npt
-data/npt/friday_pcap_windows-10-pro.npt
-data/npt/friday_pcap_windows-8.1.npt
-data/npt/friday_pcap_windows-7-pro.npt
-data/npt/friday_pcap_windows_mac-os-x.npt
-data/npt/friday_pcap_ubuntu-web-server.npt
-data/npt/friday_pcap_ubuntu-ubuntu-server.npt
-data/npt/friday_pcap_ubuntu-16.4-64b.npt
-data/npt/friday_pcap_ubuntu-16.4-32b.npt
-data/npt/friday_pcap_ubuntu-14.4-64b.npt
-data/npt/friday_pcap_ubuntu-14.4-32b.npt
-data/npt/friday_pcap_mac_mac-os-x.npt
-data/csv/friday_csv.csv
-data/csv/friday_half.csv
-data/csv/friday_eigth.csv
-data/csv/friday_32_split.csv
+# Generated data - too large for GitHub
+data/csv/*.csv
+data/npt/*.npt
+data/pcap/pcap_os_split/*.pcap
+data/pcap/*.pcap
+data/npy/*.npy
+
+# nprint build artifacts
+configure/nprint-1.2.1/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store

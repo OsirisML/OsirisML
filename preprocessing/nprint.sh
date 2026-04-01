@@ -1,29 +1,47 @@
 #!/bin/bash
 
-# loops through a directory and runs nprint on all the .pcap files to generate .npt files
+set -e
 
-# Directory where pcap files are located - by default is ../data/pcap/os_split
-pcap_directory="../data/pcap/pcap_os_split"  # Assuming pcap files are in the same directory as the script
+# Resolve paths relative to this script's location
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Directory where pcap files are located
+pcap_directory="$PROJECT_ROOT/data/pcap/pcap_os_split"
 
 # Directory where you want to save the nprint output files
-output_directory="../data/npt"  # Assuming you want to save output files in the data directory
+output_directory="$PROJECT_ROOT/data/npt"
 
-echo "Beggining nprint on .pcap files in $pcap_directory"
+# Create output directory if it doesn't exist
+mkdir -p "$output_directory"
+
+# Check that nprint is installed
+if ! command -v nprint &> /dev/null; then
+    echo "ERROR: nprint is not installed. Run 'sudo ./configure/configure.sh' first."
+    exit 1
+fi
+
+# Check that pcap directory has files
+if ! ls "$pcap_directory"/*.pcap 1> /dev/null 2>&1; then
+    echo "ERROR: No .pcap files found in $pcap_directory"
+    exit 1
+fi
+
+echo "Beginning nprint on .pcap files in $pcap_directory"
 
 # Loop through all .pcap files in the directory
 for pcap_file in "$pcap_directory"/*.pcap; do
-	# Check if the file exists
-	if [[ -f "$pcap_file" ]]; then
-		# Extract the base name without the extension
-		base_name=$(basename -- "$pcap_file" .pcap)
+    if [[ -f "$pcap_file" ]]; then
+        base_name=$(basename -- "$pcap_file" .pcap)
+        echo "Processing $base_name..."
 
-		# Use nprint to convert pcap to its format, preserving the original file name
-		# Adjust the command according to your nprint syntax and options
-		nprint -P "$pcap_file" -W "$output_directory/${base_name}.npt" -4 -t
-		echo "nprint successful for file $pcap_file"
-	else
-		echo "File does not exist: $pcap_file"
-	fi
+        if nprint -P "$pcap_file" -W "$output_directory/${base_name}.npt" -4 -t; then
+            echo "nprint successful for $base_name"
+        else
+            echo "ERROR: nprint failed for $pcap_file"
+            exit 1
+        fi
+    fi
 done
 
-echo "nprint complete to $output_directory"
+echo "nprint complete. Output in $output_directory"
